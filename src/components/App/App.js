@@ -1,4 +1,7 @@
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer'
+import Products from '../Products/Products';
+import './App.css'
 
 import {
   BrowserRouter,
@@ -12,7 +15,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes className="App">
-            <Route path="/" element={<Header /> } />
+            <Route path="/" element={<div><Header />  <Products /> <Footer /> </div>} />
         </Routes>
       </BrowserRouter>
     </div>
