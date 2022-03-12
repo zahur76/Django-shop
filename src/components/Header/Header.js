@@ -3,7 +3,7 @@ import { React, useState, useEffect } from "react";
 import './Header.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { Collapse, Card, Modal} from "react-bootstrap";
+import { Collapse, Card, Modal, Form, InputGroup, FormControl} from "react-bootstrap";
 
 
 function Header(props) {
@@ -30,7 +30,7 @@ function Header(props) {
                     <div className="d-inline p-1" onClick={() => setOpen(!open)}>{open ? <i class="fa-solid fa-xmark"></i>: <i class="fa-solid fa-bars"></i>}</div>
                 </Col>            
             </Row>
-            <div className="side-menu" style={{minHeight: '150px'}}>
+            <div className="side-menu d-md-none" style={{minHeight: '150px'}}>
                 <Collapse in={open} dimension="width">
                     <div id="example-collapse-text">
                         <Card className="bg-collapse" body style={{width: '275px'}}>
@@ -43,10 +43,26 @@ function Header(props) {
             </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className="m-0 p-2" closeButton>
-                    <Modal.Title>Admin Login</Modal.Title>
+                    <Modal.Title><div>Admin Login</div></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    
+                    <form>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1"><i class="fa-solid fa-user"></i></InputGroup.Text>
+                            <FormControl
+                            placeholder="Username"
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"/>
+                        </InputGroup>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1"><i class="fa-solid fa-key"></i></InputGroup.Text>
+                            <FormControl
+                            type="password"
+                            placeholder="Password"
+                            aria-label="Password"
+                            aria-describedby="basic-addon1"/>
+                        </InputGroup>
+                    </form>
                 </Modal.Body>
             </Modal>
         </div>
