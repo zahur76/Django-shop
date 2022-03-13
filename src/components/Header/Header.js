@@ -15,20 +15,51 @@ function Header(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // Login
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [login, setLogin] = useState(localStorage.getItem("login"));
+
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value)
+    }
+
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value)
+    }
+
+    const handleLoginSubmit = (e) => {
+        e.preventDefault()
+        let data = {'username': username, 'password': password}
+        fetch("/api/login", {method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, body: JSON.stringify(data)}).then((res) => res.json())
+        .then((data) => [localStorage.setItem("login", data.login)]).then(() => {
+            setLogin(localStorage.getItem("login"))            
+        });
+        setShow(false);
+    }
+
+    const handleLogout = (e) => {
+        e.preventDefault()
+        fetch("/api/logout").then((res) => res.json())
+        .then((data) => [localStorage.setItem("login", data.login)]).then(() => {
+            setLogin(localStorage.getItem("login"))
+        });
+    }
+
     return (
-        <div>
+        <div>            
             <Row className='header m-0 bg-dark h6'>
-                <Col className='logo text-start p-2 text-light' xs={8} md={3}>Logo</Col>
+                <Col className='logo text-start p-2 text-light' xs={8} md={3}>Logo {login}</Col>
                 <Col className='links text-end p-2 d-none d-md-block' md={9}>
                     <a className="p-2" href="#">Home</a>
                     <a className="p-2" href="#">Contact Us</a>
                     <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>
-                    <a onClick={handleShow} className="p-2" href="#"><i class="fas fa-user"></i></a>                
+                    {login==='true' ? <a onClick={handleLogout} className="p-2" href="#">Logout</a> : <a onClick={handleShow} className="p-2" href="#"><i class="fas fa-user"></i></a>}              
                 </Col>
                 <Col className='links text-end p-2 d-md-none text-light'>
                     <a className="p-2 d-inline" href="#"><i class="fa-solid fa-basket-shopping"></i></a>
                     <div className="d-inline p-1" onClick={() => setOpen(!open)}>{open ? <i class="fa-solid fa-xmark"></i>: <i class="fa-solid fa-bars"></i>}</div>
-                </Col>            
+                </Col>                          
             </Row>
             <div className="side-menu d-md-none" style={{minHeight: '150px'}}>
                 <Collapse in={open} dimension="width">
@@ -46,21 +77,14 @@ function Header(props) {
                     <Modal.Title><div>Login</div></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form>
+                    <form onSubmit={handleLoginSubmit}>
                         <InputGroup className="mb-3">
                             <InputGroup.Text id="basic-addon1"><i class="fa-solid fa-user"></i></InputGroup.Text>
-                            <FormControl
-                            placeholder="Username"
-                            aria-label="Username"
-                            aria-describedby="basic-addon1"/>
+                            <FormControl placeholder="Username" username={username} onChange={handleUsernameChange} aria-label="Username" aria-describedby="basic-addon1" required/>
                         </InputGroup>
                         <InputGroup className="mb-3">
                             <InputGroup.Text id="basic-addon1"><i class="fa-solid fa-key"></i></InputGroup.Text>
-                            <FormControl
-                            type="password"
-                            placeholder="Password"
-                            aria-label="Password"
-                            aria-describedby="basic-addon1"/>
+                            <FormControl type="password" password={password} onChange={handlePasswordChange} placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required/>
                         </InputGroup>
                         <input className="col-12 btn submit-button text-light mt-2 border-light" type="submit" value="Submit" />
                     </form>
