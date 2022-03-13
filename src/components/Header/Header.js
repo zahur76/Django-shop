@@ -10,10 +10,10 @@ function Header(props) {
     // collapse menu
     const [open, setOpen] = useState(false);
 
-     // Modal
-     const [show, setShow] = useState(false);
-     const handleClose = () => setShow(false);
-     const handleShow = () => setShow(true);
+    // Modal
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <div>
@@ -34,16 +34,16 @@ function Header(props) {
                 <Collapse in={open} dimension="width">
                     <div id="example-collapse-text">
                         <Card className="bg-collapse" body style={{width: '275px'}}>
+                            <Col xs="12"><a onClick={handleShow} href="#"><i class="fas fa-user"></i></a></Col>
                             <Col xs="12">Home</Col>
-                            <Col xs="12">Contact Us</Col>
-                            <Col xs="12">Admin</Col>
+                            <Col xs="12">Contact Us</Col>                           
                         </Card>
                     </div>
                 </Collapse>
             </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className="m-0 p-2" closeButton>
-                    <Modal.Title><div>Admin Login</div></Modal.Title>
+                    <Modal.Title><div>Login</div></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
@@ -62,6 +62,7 @@ function Header(props) {
                             aria-label="Password"
                             aria-describedby="basic-addon1"/>
                         </InputGroup>
+                        <input className="col-12 btn submit-button text-light mt-2 border-light" type="submit" value="Submit" />
                     </form>
                 </Modal.Body>
             </Modal>
