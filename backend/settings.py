@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+if os.path.exists("env.py"):
+    import env
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,10 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r$e@yd31dk8))gg79$nxf9f_co!d0!3(x4tp(uw6mrhgqli9ud'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = "DEVELOPMENT" in os.environ
 
 ALLOWED_HOSTS = []
 
@@ -124,11 +126,11 @@ STATIC_URL = "/static/"
 # other location for static files used by django not tied up to app. Will also be used by collectstatic
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "build/static"),
-    os.path.join(BASE_DIR, "build/media"),
+    # os.path.join(BASE_DIR, "build/static/media"),
 ]
 
 # used for testing collectstatic in development
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # will save media file to this destination/which is also used by react
 MEDIA_ROOT = os.path.join(BASE_DIR, "public/media")

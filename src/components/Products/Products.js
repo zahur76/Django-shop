@@ -21,6 +21,8 @@ function Products(props) {
         const value = event.currentTarget.getAttribute("value")
         setCategory(value)        
     }
+
+    
     
     return (
         <div>            
