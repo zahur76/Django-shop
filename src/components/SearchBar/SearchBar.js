@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import './SearchBar.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -8,6 +9,11 @@ function SearchBar(props) {
     
     // Search Terms
     const [search, setSearchTerm] = useState(null)
+    const [category, setCategory] = useState('women')
+
+    useEffect(() => {
+        props.onSearch(category)
+    }, [props, category]);
 
     useEffect(() => {
         props.onSearch(search)
@@ -15,6 +21,10 @@ function SearchBar(props) {
 
     const handleSearchTerm = (event) => {
         setSearchTerm(event.target.value)        
+    }
+
+    const handlezahur= (event) => {
+        setCategory('men')        
     }
 
     return (
@@ -28,13 +38,13 @@ function SearchBar(props) {
                 <Col xs={0} md={1} className="text-center my-auto">
                 </Col>
                 <Col xs={4} md={2} className="text-center my-auto p-2 text-light h6">
-                    <div>Men</div>
+                    {category==='women' ? <div>WOMEN</div> : <a className='category' href="#">WOMEN</a>}
+                </Col>
+                <Col onClick={handlezahur} xs={4} md={2} className="text-center my-auto text-light h6">
+                    {category==='men' ? <div>MEN</div> : <a className='category' href="#">MEN</a>}
                 </Col>
                 <Col xs={4} md={2} className="text-center my-auto text-light h6">
-                    <div>Women</div>
-                </Col>
-                <Col xs={4} md={2} className="text-center my-auto text-light h6">
-                    <div>Kids</div>
+                    {category==='kids' ? <div>KIDS</div> : <a className='category'href="#">KIDS</a>}
                 </Col>
             </Row>            
         </div>

@@ -12,18 +12,12 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const[search, searchStatus]=useState(null);
-
-  function onSearch(search) {    
-    searchStatus(search)
-    console.log(search)
-  }
-
+  
   return (
     <div className="App">
       <BrowserRouter>
         <Routes className="App">
-            <Route path="/" element={<div><Header /> <SearchBar onSearch={onSearch}/> <Products searchStatus={search}/> <Footer /> </div>} />
+            <Route path="/" element={<div><Header /> <Products /> <Footer /> </div>} />
         </Routes>
       </BrowserRouter>
     </div>

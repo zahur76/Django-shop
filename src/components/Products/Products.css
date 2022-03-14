@@ -1,3 +1,16 @@
 .products {    
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh - 120px);
+}
+
+.search-bar {
+    background-color: grey;    
+}
+
+.form-control {
+    border-radius: 0;
+    background-color: lightgrey;
+}
+
+.category {
+    color: lightgray;
 }
