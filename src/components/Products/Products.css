@@ -14,3 +14,16 @@
 .category {
     color: lightgray;
 }
+
+.subcategory a {
+    text-transform: uppercase;
+    color: black !important;
+}
+
+.subcategory a:hover {
+    color: rgb(138, 138, 138) !important;
+}
+
+.no-link {
+   pointer-events: none;
+}
