@@ -13,6 +13,7 @@ function Products(props) {
     const [search, setSearchTerm] = useState(null)
     const [category, setCategory] = useState('women')
     const [products, setProducts] = useState(null);
+    const [masterProducts, setMasterProduct] = useState(null);
     const [media, setMedia] = useState(null)
     const [subcategory, setSubcategory] = useState(null)
     const [subCategorySelect, setSubcategorySelect] = useState('all')
@@ -29,7 +30,7 @@ function Products(props) {
 
     useEffect(() => {
         fetch("/api").then((res) => res.json())
-        .then((data) => [setProducts(data.products), setSubcategory(data.subcategory)]).catch((error) => {
+        .then((data) => [setProducts(data.products), setSubcategory(data.subcategory), setMasterProduct(data.products)]).catch((error) => {
             console.log(error);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,6 +39,24 @@ function Products(props) {
     useEffect(() => {
         process.env.NODE_ENV==='development' ? setMedia('media/') : setMedia('https://django-react-universe.s3.amazonaws.com/media/')
     }, [])
+
+    const handleSubcategory = (event) => {
+        let select = event.currentTarget.getAttribute("value")
+        setSubcategorySelect(select)
+        let newList = []
+        let allItems = masterProducts
+        if(select==='all'){
+            setProducts(masterProducts)
+        }else{
+            allItems.map((element)=>{
+                if(((element.subcategory).toLowerCase()).includes(select.toLowerCase())){
+                    newList.push(element)                    
+                }
+                setProducts(newList)
+                return newList
+            })
+        }        
+    }
 
     const productView = (products || []).map((element)=>
                     <Col className="text-light mb-2" key={element.id} xs={12} sm={6} md={4} lg={3}>                 
@@ -51,13 +70,13 @@ function Products(props) {
     )
 
     const subcategoryMenu = (subcategory || []).map((element)=>
-                <div className="d-inline"> 
+                <div onClick={handleSubcategory} value={element} key={element} className="d-inline"> 
                     {subCategorySelect===element ? <a href="#" className="h6 p-4 pb-1 border-bottom no-link">{element}</a> : <a href="#" className="h6 d-inline p-4 ">{element}</a>}
                 </div>                           
     )    
     
     return (
-        <div>         
+        <div className="product-view">         
             <div className="search-bar">
                 <Row className="m-0 p-2">
                     <Col xs={12} md={5}>

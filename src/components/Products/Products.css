@@ -1,5 +1,5 @@
-.products {    
-    min-height: calc(100vh - 120px);
+.product-view {    
+    min-height: calc(100vh - 65px);
 }
 
 .search-bar {
