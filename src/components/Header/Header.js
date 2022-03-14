@@ -3,7 +3,7 @@ import { React, useState, useEffect } from "react";
 import './Header.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { Collapse, Card, Modal, Form, InputGroup, FormControl} from "react-bootstrap";
+import { Collapse, Card, Modal, InputGroup, FormControl} from "react-bootstrap";
 
 
 function Header(props) {
@@ -14,6 +14,9 @@ function Header(props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    // flash messages
+    const [flash, flashMessages] = useState(null)
 
     // Login
     const [username, setUsername] = useState(null);
@@ -32,8 +35,12 @@ function Header(props) {
         e.preventDefault()
         let data = {'username': username, 'password': password}
         fetch("/api/login", {method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, body: JSON.stringify(data)}).then((res) => res.json())
-        .then((data) => [localStorage.setItem("login", data.login)]).then(() => {
-            setLogin(localStorage.getItem("login"))            
+        .then((data) => [localStorage.setItem("login", data.login), data.login ? flashMessages('Login Successful!') : flashMessages('Incorrect Username/password!')]).then(() => {
+            setLogin(localStorage.getItem("login"))
+            setTimeout(() => {
+                flashMessages(null)
+            }, 3000);
+                      
         });
         setShow(false);
     }
@@ -41,14 +48,18 @@ function Header(props) {
     const handleLogout = (e) => {
         e.preventDefault()
         fetch("/api/logout").then((res) => res.json())
-        .then((data) => [localStorage.setItem("login", data.login)]).then(() => {
+        .then((data) => [localStorage.setItem("login", data.login ? flashMessages(null) : flashMessages('Logout Successful'))]).then(() => {
             setLogin(localStorage.getItem("login"))
+            setTimeout(() => {
+                flashMessages(null)
+            }, 3000);
         });
     }
 
     return (
-        <div>            
-            <Row className='header m-0 bg-dark h6'>
+        <div>
+            {flash ? <div className="flash-messages">{flash}</div> : <div></div>}        
+            <Row className='header m-0 bg-dark'>
                 <Col className='logo text-start p-2 text-light' xs={8} md={3}>Logo {login}</Col>
                 <Col className='links text-end p-2 d-none d-md-block' md={9}>
                     <a className="p-2" href="#">Home</a>
