@@ -1,6 +1,7 @@
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer'
 import Products from '../Products/Products';
+import SearchBar from '../SearchBar/SearchBar';
 import './App.css'
 
 import {
@@ -15,7 +16,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes className="App">
-            <Route path="/" element={<div><Header />  <Products /> <Footer /> </div>} />
+            <Route path="/" element={<div><Header /> <SearchBar /> <Products /> <Footer /> </div>} />
         </Routes>
       </BrowserRouter>
     </div>
