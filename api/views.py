@@ -1,3 +1,4 @@
+from cgi import print_form
 from math import prod
 from operator import sub
 from django.shortcuts import render
@@ -78,3 +79,33 @@ def category_list(request):
         subcategory_list[cat.name] = list(cat.cat.all().values_list('name', flat=True))
 
     return HttpResponse(json.dumps(subcategory_list), content_type="application/json")
+
+
+@require_POST
+def add_product(request):
+    """View to add product"""
+
+    if request.method == "POST":
+
+        data = request.POST
+        file = request.FILES["image"]
+
+        category = get_object_or_404(Category, name=data['category'])
+        subcategory_ = category.cat.all()
+        for sub in subcategory_:
+            if sub.name==data['subcategory']:
+                subcategory_=sub
+        new_product = Product.objects.create(
+            category=category,
+            subcategory=subcategory_,
+            name=data['name'],
+            price=int(data['price']),
+            stock_available=data["stock_available"],
+            sizes_available=data["sizes_available"],
+            image=file,
+        )
+        new_product.save()
+       
+        
+
+        return HttpResponse(status=200)

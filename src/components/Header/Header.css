@@ -34,18 +34,17 @@ a:hover {
 }
 
 .modal-content {
-    background-color:rgb(187, 187, 187);
+    background-color:rgba(0, 0, 0, 0.61);
     background-size: 200%;
 }
 
 .submit-button {
     background-color: rgba(136, 136, 136, 0.678);
     border: none;
-    color: black !important;
 }
 
 .submit-button:hover {
-    background-color: rgba(208, 167, 250, 0.678);
+    background-color: rgba(216, 216, 216, 0.678);
 }
 
 /* flash messages */

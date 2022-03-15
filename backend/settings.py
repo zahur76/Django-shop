@@ -42,8 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
-    'storages', 
+    'storages',
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://djano-react-shop.herokuapp.com/', 'http://localhost:8000/']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

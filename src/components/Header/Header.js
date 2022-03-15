@@ -93,10 +93,10 @@ function Header(props) {
             </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className="m-0 p-2" closeButton>
-                    <Modal.Title><div>Login</div></Modal.Title>
+                    <Modal.Title><div className="text-light">Login</div></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form onSubmit={handleLoginSubmit}>
+                    <form className="p-2" onSubmit={handleLoginSubmit}>
                         <InputGroup className="mb-3 sign-in">
                             <InputGroup.Text id="basic-addon1"><i class="fa-solid fa-user"></i></InputGroup.Text>
                             <FormControl placeholder="Username" username={username} onChange={handleUsernameChange} aria-label="Username" aria-describedby="basic-addon1" required/>

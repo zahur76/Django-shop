@@ -5,10 +5,51 @@ import './Admin.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Navigate } from 'react-router-dom';
-import { Button } from "react-bootstrap";
+import { Button, Modal, InputGroup, FormControl, Form } from "react-bootstrap";
 
 
 function Admin(props) {
+
+    const [category, setCategory] = useState(null)
+    const [subCategory, setSubcategory] = useState(null)
+
+    // Modal Product Form
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [stock, setStock] = useState('');
+    const [size, setSize] = useState('');
+    const [image, setImage] = useState(null);
+
+    const handleNameChange = (event) => {
+        setName(event.currentTarget.value)
+    }
+
+    const handlePriceChange = (event) => {
+        setPrice(event.currentTarget.value)
+    }
+
+    const handleStockChange = (event) => {
+        setStock(event.currentTarget.value)
+    }
+
+    const handleSizeChange = (event) => {
+        setSize(event.currentTarget.value)
+    }
+
+    const handleImageChange = (event) => {
+        event.preventDefault();
+        let file = event.target.files[0];
+        console.log(file)
+        setImage(file);
+    }
+
+    const handleShow = (event) => {
+        setCategory(event.currentTarget.getAttribute("id"))
+        setSubcategory(event.currentTarget.getAttribute("value"))
+        setShow(true);
+    }
 
     const [kids, setkids] = useState(null)
     const [women, setWomen] = useState(null)
@@ -23,15 +64,55 @@ function Admin(props) {
     }, [])
     
     const categoryViewKids = (kids || []).map((element)=>
-                    element!=='all' ? <Col className="h5 ps-2" xs={3} md={2} lg={1}><Button variant="outline-dark">{element}</Button></Col> : <Col className="d-none"></Col>
+                    element!=='all' ? <Col onClick={handleShow} value={element} id='kids' className="h5 ps-2" xs={3} md={2} lg={1}><Button variant="outline-dark">{element}</Button></Col> : <Col className="d-none"></Col>
     )
     const categoryViewWomen = (women|| []).map((element)=>
-                    element!=='all' ? <Col className="h5 ps-2" xs={3} md={2} lg={1}><Button variant="outline-dark">{element}</Button></Col> : <Col className="d-none"></Col>                       
+                    element!=='all' ? <Col onClick={handleShow} value={element}id='women' className="h5 ps-2" xs={3} md={2} lg={1}><Button variant="outline-dark">{element}</Button></Col> : <Col className="d-none"></Col>                       
                     
     ) 
     const categoryViewMen = (men || []).map((element)=>
-                    element!=='all' ? <Col className="h5 ps-2" xs={3} md={2} lg={1}><Button variant="outline-dark">{element}</Button></Col> : <Col className="d-none"></Col>
-    ) 
+                    element!=='all' ? <Col onClick={handleShow} value={element} id='men' className="h5 ps-2" xs={3} md={2} lg={1}><Button variant="outline-dark">{element}</Button></Col> : <Col className="d-none"></Col>
+    )
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+
+    const handleProductSubmit = (e) => {
+        e.preventDefault()
+    
+        let formData = new FormData()
+        formData.append('category', category)
+        formData.append('subcategory', subCategory)
+        formData.append('name', name)
+        formData.append('price', price)
+        formData.append('stock_available', stock)
+        formData.append('sizes_available', size)
+        formData.append('image', image)
+        
+
+        var csrftoken = getCookie('csrftoken');
+        console.log(formData)
+
+        fetch("/api/add_product", {method: 'POST', headers: {'X-CSRFToken': csrftoken},
+            "Content-Type": "multipart/form-data", body: formData}).then((res) => {
+            window.location.reload();
+            setShow(false)
+        });
+      }
 
     return (
         <div className="admin-view">
@@ -51,6 +132,52 @@ function Admin(props) {
                 <Col xs={12} className="mb-2 border-bottom border-secondary"><i class="fas fa-plus-circle"></i> Men</Col>
                 {categoryViewMen}  
             </Row>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header className="m-0 p-2" closeButton>
+                    <Modal.Title><div className="text-light text">Add Product</div></Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form  className="p-3" onSubmit={handleProductSubmit}>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+                            <FormControl
+                            onChange={handleNameChange}
+                            placeholder="name"
+                            aria-label="name"
+                            aria-describedby="basic-addon1" required/>
+                        </InputGroup>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text>$</InputGroup.Text>
+                            <FormControl
+                            onChange={handlePriceChange}
+                            placeholder="Price"
+                            type="number"
+                            aria-label="name"
+                            aria-describedby="basic-addon1" required/>
+                        </InputGroup>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text><i class="fas fa-box"></i></InputGroup.Text>
+                            <FormControl
+                            onChange={handleStockChange}
+                            placeholder="Stock Available"
+                            type="number"
+                            aria-label="name"
+                            aria-describedby="basic-addon1" required/>
+                        </InputGroup>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text><i class="fas fa-box"></i></InputGroup.Text>
+                            <FormControl
+                            onChange={handleSizeChange}
+                            placeholder="Sizes (e.g s,m,l)"
+                            type="text"
+                            aria-label="name"
+                            aria-describedby="basic-addon1" required/>
+                        </InputGroup>
+                        <Form.Control name="image" type="file" multiple onChange={handleImageChange} required/>
+                        <input className="col-12 btn submit-button text-light mt-2 border-light" type="submit" value="Submit" />                       
+                    </form>
+                </Modal.Body>
+            </Modal>
                    
         </div>
     );
