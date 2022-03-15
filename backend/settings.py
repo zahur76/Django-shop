@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+import dj_database_url
+
 if os.path.exists("env.py"):
     import env
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'storages', 
 ]
 
 MIDDLEWARE = [
@@ -76,12 +79,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if "DATABASE_URL" in os.environ:
+    DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
     }
-}
 
 
 # Password validation
@@ -134,3 +140,27 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # will save media file to this destination/which is also used by react
 MEDIA_ROOT = os.path.join(BASE_DIR, "public/media")
+
+if "USE_AWS" in os.environ:
+    # Cache control
+    AWS_S3_OBJECT_PARAMETERS = {
+        "Expires": "Thu, 31 Dec 2099 20:00:00 GMT",
+        "CacheControl": "max-age=94608000",
+    }
+    # Bucket Config
+    AWS_STORAGE_BUCKET_NAME = "django-react-shop"
+    AWS_S3_REGION_NAME = "ap-southeast-1"
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+
+    # Static and media files
+    # To allow django-admin collectstatic to automatically put your static files in your bucket
+    STATICFILES_STORAGE = "custom_storages.StaticStorage"
+    STATICFILES_LOCATION = (
+        "static"  # store files under directory `static/` in bucket `my-app-bucket`
+    )
+    DEFAULT_FILE_STORAGE = "custom_storages.MediaStorage"
+    MEDIAFILES_LOCATION = (
+        "media"  # store files under directory `media/` in bucket `my-app-bucket`
+    )
