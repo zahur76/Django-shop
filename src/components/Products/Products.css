@@ -27,3 +27,7 @@
 .no-link {
    pointer-events: none;
 }
+
+img {
+    width: 100%;
+}

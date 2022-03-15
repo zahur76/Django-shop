@@ -14,13 +14,23 @@ function Products(props) {
     const [category, setCategory] = useState('women')
     const [products, setProducts] = useState(null);
     const [masterProducts, setMasterProduct] = useState(null);
-    const [media, setMedia] = useState(null)
+    const [media, setMedia] = useState('media/')
     const [subcategory, setSubcategory] = useState(null)
     const [subCategorySelect, setSubcategorySelect] = useState('all')
 
 
     const handleSearchTerm = (event) => {
-        setSearchTerm(event.target.value)        
+        setSearchTerm(event.target.value)
+        let term = event.target.value
+        let allItems = masterProducts
+        let newList = []
+        allItems.map((element)=>{
+            if(((element.name).toLowerCase()).includes(term.toLowerCase())){
+                newList.push(element)                    
+            }
+            setProducts(newList)
+            return newList
+        })    
     }
 
     const handleCategory= (event) => {
@@ -34,10 +44,6 @@ function Products(props) {
             console.log(error);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    useEffect(() => {
-        process.env.NODE_ENV==='development' ? setMedia('media/') : setMedia('https://django-react-universe.s3.amazonaws.com/media/')
     }, [])
 
     const handleSubcategory = (event) => {
@@ -59,12 +65,12 @@ function Products(props) {
     }
 
     const productView = (products || []).map((element)=>
-                    <Col className="text-light mb-2" key={element.id} xs={12} sm={6} md={4} lg={3}>                 
+                    <Col className="text-dark mb-2 h6 text-center" key={element.id} xs={12} sm={6} md={4} lg={3}>                 
                         <div>
-                            <div className="h4 text-info">{element.id}</div>
-                            <div className="h4 text-info">{element.name}</div>
-                            <div className="h4 text-info">{element.subcategory}</div>
-                            <img src={media + element.image} alt=""/>
+                            <div>{element.sku}</div>
+                            <div>{element.name}</div>
+                            <div>{element.subcategory}</div>
+                            <img src={process.env.PUBLIC_URL + media + element.image} alt={element.name}/> 
                         </div>                            
                     </Col>
     )
