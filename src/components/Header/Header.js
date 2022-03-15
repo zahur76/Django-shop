@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { React, useState, useEffect } from "react";
+import { Navigate } from 'react-router-dom';
 import './Header.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -22,6 +24,8 @@ function Header(props) {
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [login, setLogin] = useState(localStorage.getItem("login"));
+    const [logout, setLogout] = useState(null)
+   
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value)
@@ -36,7 +40,7 @@ function Header(props) {
         let data = {'username': username, 'password': password}
         fetch("/api/login", {method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, body: JSON.stringify(data)}).then((res) => res.json())
         .then((data) => [localStorage.setItem("login", data.login), data.login ? flashMessages('Login Successful!') : flashMessages('Incorrect Username/password!')]).then(() => {
-            setLogin(localStorage.getItem("login"))
+            setLogin(localStorage.getItem("login"))            
             setTimeout(() => {
                 flashMessages(null)
             }, 3000);
@@ -48,8 +52,9 @@ function Header(props) {
     const handleLogout = (e) => {
         e.preventDefault()
         fetch("/api/logout").then((res) => res.json())
-        .then((data) => [localStorage.setItem("login", data.login ? flashMessages(null) : flashMessages('Logout Successful'))]).then(() => {
+        .then((data) => [localStorage.setItem("login", data.login ? flashMessages(null) : flashMessages('Logout Successful')), setLogout(<Navigate to='/' />)]).then(() => {
             setLogin(localStorage.getItem("login"))
+            setLogout(null)
             setTimeout(() => {
                 flashMessages(null)
             }, 3000);
@@ -58,14 +63,16 @@ function Header(props) {
 
     return (
         <div>
+            {logout}
             {flash ? <div className="flash-messages">{flash}</div> : <div></div>}        
             <Row className='header m-0 bg-dark'>
                 <Col className='logo text-start p-2 text-light' xs={8} md={3}>Logo {login}</Col>
                 <Col className='links text-end p-2 d-none d-md-block' md={9}>
-                    <a className="p-2" href="#">Home</a>
-                    <a className="p-2" href="#">Contact Us</a>
-                    <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>
-                    {login==='true' ? <a onClick={handleLogout} className="p-2" href="#">Logout</a> : <a onClick={handleShow} className="p-2" href="#"><i class="fas fa-user"></i></a>}              
+                    <a className="p-2" href="/">Home</a>
+                    {login==='true' ? <a href="#"></a> : <a className="p-2" href="#">Contact Us</a>}
+                    {login==='true' ? <a href="#"></a> : <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>}
+                    {login==='true' ? <a className="p-2" href="/admin"><i className="text-success fas fa-user"></i></a> : <a onClick={handleShow} className="p-2" href="#"><i class="fas fa-user"></i></a>}
+                    {login==='true' ? <a onClick={handleLogout} className="p-2" href="#"><i class="fas fa-sign-out"></i></a> : <div></div>}         
                 </Col>
                 <Col className='links text-end p-2 d-md-none text-light'>
                     <a className="p-2 d-inline" href="#"><i class="fa-solid fa-basket-shopping"></i></a>
@@ -76,9 +83,10 @@ function Header(props) {
                 <Collapse in={open} dimension="width">
                     <div id="example-collapse-text text-light">
                         <Card className="bg-collapse" body style={{width: '275px'}}>
-                            <Col xs="12"><a onClick={handleShow} href="#"><i class="fas fa-user"></i></a></Col>
-                            <Col xs="12">Home</Col>
-                            <Col xs="12">Contact Us</Col>                           
+                            {login==='true' ? <a className="p-0" href="/admin"><i className="text-success fas fa-user"></i></a> : <a onClick={handleShow} className="p-2" href="#"><i class="fas fa-user"></i></a>}
+                            <Col xs="12"><a href="/">Home</a></Col>
+                            <Col xs="12">Contact Us</Col>
+                            {login==='true' ? <a onClick={handleLogout} className="p-0" href="#"><i class="fas fa-sign-out"></i></a> : <div></div>}                          
                         </Card>
                     </div>
                 </Collapse>
@@ -89,7 +97,7 @@ function Header(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={handleLoginSubmit}>
-                        <InputGroup className="mb-3">
+                        <InputGroup className="mb-3 sign-in">
                             <InputGroup.Text id="basic-addon1"><i class="fa-solid fa-user"></i></InputGroup.Text>
                             <FormControl placeholder="Username" username={username} onChange={handleUsernameChange} aria-label="Username" aria-describedby="basic-addon1" required/>
                         </InputGroup>

@@ -29,6 +29,7 @@ def login_view(request):
 
 def logout_view(request):
     """View to authenticate login"""
+    logout(request)
     data = {"login": False}
 
     return HttpResponse(json.dumps(data), content_type="application/json")
@@ -67,3 +68,13 @@ def category_view(request, category):
     product_dict['subcategory']=subcategory_list
     
     return HttpResponse(json.dumps(product_dict), content_type="application/json")
+
+
+def category_list(request):
+    """View to return subcategories for each list"""
+    subcategory_list = {}
+    category = Category.objects.all()
+    for cat in category:
+        subcategory_list[cat.name] = list(cat.cat.all().values_list('name', flat=True))
+
+    return HttpResponse(json.dumps(subcategory_list), content_type="application/json")

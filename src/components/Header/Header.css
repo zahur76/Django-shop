@@ -34,12 +34,12 @@ a:hover {
 }
 
 .modal-content {
-    background-image: url('../media/29-290160_purple-and-white-stripes.jpg');
+    background-color:rgb(187, 187, 187);
     background-size: 200%;
 }
 
 .submit-button {
-    background-color: rgba(188, 117, 255, 0.678);
+    background-color: rgba(136, 136, 136, 0.678);
     border: none;
     color: black !important;
 }
@@ -55,7 +55,7 @@ a:hover {
     top: 50px;
     right: 50px;
     padding: 10px;
-    background-color:rgba(255, 168, 212, 0.473);
-    color:rgb(107, 107, 107);
+    background-color:rgba(71, 71, 71, 0.808);
+    color:rgb(238, 238, 238);
 }
 

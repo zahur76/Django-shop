@@ -38,7 +38,7 @@ function Products(props) {
         const value = event.currentTarget.getAttribute("value")
         setCategory(value)
         fetch(`/api/${value}`).then((res) => res.json())
-        .then((data) => [setProducts(data.products), setSubcategory(data.subcategory), setMasterProduct(data.products)]).catch((error) => {
+        .then((data) => [setProducts(data.products), setSubcategory(data.subcategory), setMasterProduct(data.products), setSubcategorySelect('all')]).catch((error) => {
             console.log(error);
         });       
     }
