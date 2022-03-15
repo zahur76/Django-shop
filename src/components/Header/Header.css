@@ -5,7 +5,7 @@
 .side-menu {
     position: absolute;
     left: 0px;
-    top: 50px;
+    top: 0px;
 }
 
 a {
@@ -18,8 +18,11 @@ a:hover {
 }
 
 .bg-collapse {
+    height: 100vh;
+    color: white;
     border-radius: 0px;
-    background-color: rgba(0, 0, 0, 0.548);
+    background-color: rgba(0, 0, 0, 0.822);
+    z-index: 1;
 }
 
 .fa-solid {

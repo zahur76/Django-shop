@@ -74,7 +74,7 @@ function Header(props) {
             </Row>
             <div className="side-menu d-md-none" style={{minHeight: '150px'}}>
                 <Collapse in={open} dimension="width">
-                    <div id="example-collapse-text">
+                    <div id="example-collapse-text text-light">
                         <Card className="bg-collapse" body style={{width: '275px'}}>
                             <Col xs="12"><a onClick={handleShow} href="#"><i class="fas fa-user"></i></a></Col>
                             <Col xs="12">Home</Col>
