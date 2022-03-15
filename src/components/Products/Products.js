@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { InputGroup, FormControl } from 'react-bootstrap';
 import { useEffect, useState } from "react";
+import { isElement } from "react-dom/test-utils";
 
 
 function Products(props) {
@@ -68,14 +69,34 @@ function Products(props) {
         }        
     }
 
+    const handleMouseOver = (event) => {
+        const imageId = event.currentTarget.getAttribute("id")
+        let element = document.getElementsByClassName('image' + imageId)
+        element[0].style.transform = 'scale(1.05)'
+          
+    }
+
+    const handleMouseOut = (event) => {
+        const imageId = event.currentTarget.getAttribute("id")
+        let element = document.getElementsByClassName('image' + imageId)
+        element[0].style.transform = 'scale(1.0)'
+        
+    }
+
     const productView = (products || []).map((element)=>
-                    <Col className="text-dark mb-2 h6 text-center" key={element.id} xs={12} sm={6} md={4} lg={3}>                 
-                        <div>
-                            <div>{element.sku}</div>
-                            <div>{element.name}</div>
-                            <div>{element.subcategory}</div>
-                            <img src={process.env.PUBLIC_URL + media + element.image} alt={element.name}/> 
-                        </div>                            
+                    <Col onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} id={element.id} className="product-details" key={element.id} xs={12} sm={4} md={3} lg={2}>                 
+                        <a href="#">                            
+                            <img src={process.env.PUBLIC_URL + media + element.image} className={'image' + element.id} alt={element.name} />
+                            <div className="bg-details">
+                                <div className="text-start text-grey ps-3 pt-2">$ {element.price}</div>
+                                <div className="text-start text-light-grey ps-3">{element.name}</div>
+                                <span class="fa fa-star ps-3 checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star unchecked"></span>
+                            </div>
+                        </a>                            
                     </Col>
     )
 
@@ -110,7 +131,7 @@ function Products(props) {
             <div className="subcategory mt-2 text-center">                
                     {subcategoryMenu}                
             </div>
-            <div className="Planets mt-2">
+            <div className="Products mt-2">
                 <Row className="m-0 p-2">
                     {productView}
                 </Row>

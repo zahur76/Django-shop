@@ -30,4 +30,34 @@
 
 img {
     width: 100%;
+    transition: all .2s ease-in-out; 
 }
+
+.bg-details {
+    overflow: hidden;
+}
+
+
+.text-grey { 
+    color: rgb(161, 161, 161);
+}
+
+.text-light-grey {
+    color: rgb(170, 170, 170);
+    font-weight: 400;
+}
+
+.checked {
+    color: rgb(238,232,170);
+    font-size: 12px;
+}
+
+.unchecked {
+    color: rgba(0, 0, 0, 0.425);
+    font-size: 12px;
+}
+
+.product-details {
+    overflow: hidden;
+}
+

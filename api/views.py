@@ -51,6 +51,7 @@ def category_view(request, category):
         "category",
         "subcategory",
         "name",
+        "price",
         "sku",
         "stock_available",
         "sizes_available",
