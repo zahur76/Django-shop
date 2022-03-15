@@ -35,11 +35,15 @@ function Products(props) {
 
     const handleCategory= (event) => {
         const value = event.currentTarget.getAttribute("value")
-        setCategory(value)        
+        setCategory(value)
+        fetch(`/api/${value}`).then((res) => res.json())
+        .then((data) => [setProducts(data.products), setSubcategory(data.subcategory), setMasterProduct(data.products)]).catch((error) => {
+            console.log(error);
+        });       
     }
 
     useEffect(() => {
-        fetch("/api").then((res) => res.json())
+        fetch("/api/women").then((res) => res.json())
         .then((data) => [setProducts(data.products), setSubcategory(data.subcategory), setMasterProduct(data.products)]).catch((error) => {
             console.log(error);
         });

@@ -9,38 +9,6 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Product, Category, subCategory
 
 # Create your views here.
-def home(request):
-    """View to return all women objects"""
-    print("im here")
-    category = get_object_or_404(Category, name='women').cat.all()
-    subcategory = {}
-    subcategory_list = []
-    for cat in category:
-        subcategory[cat.id]=cat.name
-        subcategory_list.append(cat.name)
-    subcategory_list.sort()
-    product_list = []
-    women = {}
-    all_data =Product.objects.values(
-        "id",
-        "category",
-        "subcategory",
-        "name",
-        "sku",
-        "stock_available",
-        "sizes_available",
-        "image",
-    )
-    for data in all_data:
-        product_list.append(data)
-        data['category']='women'
-        data['subcategory']=subcategory[data['subcategory']]
-    women['products']=product_list
-    women['subcategory']=subcategory_list
-    print(women)
-    return HttpResponse(json.dumps(women), content_type="application/json")
-
-
 @require_POST
 @csrf_exempt
 def login_view(request):
@@ -64,3 +32,35 @@ def logout_view(request):
     data = {"login": False}
 
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+def category_view(request, category):
+    """View to return category products"""
+    category_ = get_object_or_404(Category, name=category)
+    all_subcategory = get_object_or_404(Category, name=category).cat.all()
+    subcategory = {}
+    subcategory_list = []
+    for cat in all_subcategory:
+        subcategory[cat.id]=cat.name
+        subcategory_list.append(cat.name)
+    subcategory_list.sort()
+    product_list = []
+    product_dict = {}
+    all_data =Product.objects.values(
+        "id",
+        "category",
+        "subcategory",
+        "name",
+        "sku",
+        "stock_available",
+        "sizes_available",
+        "image",
+    ).filter(category=category_.id)
+    for data in all_data:
+        product_list.append(data)
+        data['category']= category
+        data['subcategory']=subcategory[data['subcategory']]
+    product_dict['products']=product_list
+    product_dict['subcategory']=subcategory_list
+    
+    return HttpResponse(json.dumps(product_dict), content_type="application/json")

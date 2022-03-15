@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "DEVELOPMENT" in os.environ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -126,7 +126,7 @@ STATIC_URL = "/static/"
 # other location for static files used by django not tied up to app. Will also be used by collectstatic
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "build/static"),
-    # os.path.join(BASE_DIR, "build/static/media"),
+    # os.path.join(BASE_DIR, "build/media"),
 ]
 
 # used for testing collectstatic in development
