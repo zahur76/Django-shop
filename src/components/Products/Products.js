@@ -83,6 +83,18 @@ function Products(props) {
         
     }
 
+    const handleRating = (rating) => {
+        let ratingList = []
+        let i
+        for(i=1; i<=rating; i++){
+            ratingList.push(<span class="fa fa-star checked"></span>)
+        }
+        for(i=1; i<=(5-rating); i++){
+            ratingList.push(<span class="fa fa-star unchecked"></span>)
+        }
+        return ratingList
+    }
+
     const productView = (products || []).map((element)=>
                     <Col onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} id={element.id} className="product-details" key={element.id} xs={12} sm={4} md={3} lg={2}>                 
                         <a href="#">                            
@@ -90,11 +102,7 @@ function Products(props) {
                             <div className="bg-details">
                                 <div className="text-start text-grey ps-3 pt-2">$ {element.price}</div>
                                 <div className="text-start text-light-grey ps-3">{element.name}</div>
-                                <span class="fa fa-star ps-3 checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star unchecked"></span>
+                                {handleRating(element.rating)}                                
                             </div>
                         </a>                            
                     </Col>

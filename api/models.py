@@ -48,6 +48,7 @@ class Product(models.Model):
     sizes_available = models.CharField(
         max_length=254, null=True, blank=True, default="s,m,lg"
     )
+    rating = models.DecimalField(max_digits=3, decimal_places=1 , default=0.0)
     image = models.ImageField(null=False, blank=False)
 
     def __str__(self):

@@ -55,10 +55,12 @@ def category_view(request, category):
         "sku",
         "stock_available",
         "sizes_available",
+        "rating",
         "image",
     ).filter(category=category_.id)
     for data in all_data:
         product_list.append(data)
+        data['rating'] = round(data['rating'])
         data['category']= category
         data['subcategory']=subcategory[data['subcategory']]
     product_dict['products']=product_list
