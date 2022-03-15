@@ -14,7 +14,7 @@ function Products(props) {
     const [category, setCategory] = useState('women')
     const [products, setProducts] = useState(null);
     const [masterProducts, setMasterProduct] = useState(null);
-    const [media, setMedia] = useState('media/')
+    const [media, setMedia] = useState('/media/')
     const [subcategory, setSubcategory] = useState(null)
     const [subCategorySelect, setSubcategorySelect] = useState('all')
 
