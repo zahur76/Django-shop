@@ -1,3 +1,7 @@
 .admin-view {    
     min-height: calc(100vh - 65px);
 }
+
+.product-form {
+    top: 15% !important;
+}

@@ -96,7 +96,7 @@ function Products(props) {
     }
 
     const productView = (products || []).map((element)=>
-                    <Col onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} id={element.id} className="product-details" key={element.id} xs={12} sm={4} md={3} lg={2}>                 
+                    <Col onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} id={element.id} className="product-details mt-3" key={element.id} xs={6} sm={4} md={3} lg={2}>                 
                         <a href="#">                            
                             <img src={process.env.PUBLIC_URL + media + element.image} className={'image' + element.id} alt={element.name} />
                             <div className="bg-details">
@@ -109,13 +109,13 @@ function Products(props) {
     )
 
     const subcategoryMenu = (subcategory || []).map((element)=>
-                <div onClick={handleSubcategory} value={element} key={element} className="d-inline"> 
-                    {subCategorySelect===element ? <a href="#" className="h6 p-4 pb-1 border-bottom no-link">{element}</a> : <a href="#" className="h6 d-inline p-4 ">{element}</a>}
+                <div onClick={handleSubcategory} value={element} key={element} className="d-inline text-center"> 
+                    {subCategorySelect===element ? <a href="#" className="h6 p-2 ps-md-5 pe-md-5 no-link pb-1 subcategory-link">{element}</a> : <a href="#" className="h6 d-inline p-2 p-md-5 subcategory-link">{element}</a>}
                 </div>                           
     )    
     
     return (
-        <div className="product-view">         
+        <div className="product-view">                 
             <div className="search-bar">
                 <Row className="m-0 p-2">
                     <Col xs={12} md={5}>
@@ -125,22 +125,23 @@ function Products(props) {
                     </Col>
                     <Col xs={0} md={1} className="text-center my-auto">
                     </Col>
-                    <Col xs={4} md={2} onClick={handleCategory} value='women' className="text-center my-auto p-2 text-light h6">
+                    <Col xs={4} md={2} onClick={handleCategory} value='women' className="text-center my-auto p-2 text-light subcategory-link">
                         {category==='women' ? <div>WOMEN</div> : <a className='category' href="#">WOMEN</a>}
                     </Col>
-                    <Col xs={4} md={2} onClick={handleCategory} value='men' className="text-center my-auto text-light h6">
+                    <Col xs={4} md={2} onClick={handleCategory} value='men' className="text-center my-auto text-light subcategory-link">
                         {category==='men' ? <div>MEN</div> : <a className='category' href="#">MEN</a>}
                     </Col>
-                    <Col xs={4} md={2} onClick={handleCategory} value='kids' className="text-center my-auto text-light h6">
+                    <Col xs={4} md={2} onClick={handleCategory} value='kids' className="text-center my-auto text-light subcategory-link">
                         {category==='kids' ? <div>KIDS</div> : <a className='category'href="#">KIDS</a>}
                     </Col>
                 </Row>            
             </div>
-            <div className="subcategory mt-2 text-center">                
-                    {subcategoryMenu}                
-            </div>
+            <Row className="subcategory mt-2 text-center m-0">
+                <Col xs={12}>{subcategoryMenu}</Col>                        
+            </Row>
+            <div className="text-secondary breadcrumbs ps-3 mt-2">{category.toUpperCase()} > {subCategorySelect.toUpperCase()}</div>  
             <div className="Products mt-2">
-                <Row className="m-0 p-2">
+                <Row className="m-0 p-1">
                     {productView}
                 </Row>
             </div>

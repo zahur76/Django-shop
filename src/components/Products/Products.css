@@ -17,15 +17,16 @@
 
 .subcategory a {
     text-transform: uppercase;
-    color: black !important;
+    color: rgb(121, 120, 120) !important;
 }
 
 .subcategory a:hover {
-    color: rgb(138, 138, 138) !important;
+    color: rgb(212, 212, 212) !important;
 }
 
 .no-link {
    pointer-events: none;
+   border-bottom: 1px solid rgb(153, 153, 153);
 }
 
 img {
@@ -59,5 +60,12 @@ img {
 
 .product-details {
     overflow: hidden;
+}
+
+@media screen and (max-width: 576px){    
+    .subcategory-link, .breadcrumbs{
+        font-size: 14px;
+
+    }
 }
 
