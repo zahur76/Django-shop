@@ -12,6 +12,11 @@ function Admin(props) {
 
     const [category, setCategory] = useState(null)
     const [subCategory, setSubcategory] = useState(null)
+    const [products, setProducts] = useState(null)
+    const [media, setMedia] = useState('/media/')
+
+    // flash messages
+    const [flash, flashMessages] = useState(null)
 
     // Modal Product Form
     const [show, setShow] = useState(false);
@@ -62,6 +67,14 @@ function Admin(props) {
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        fetch("/api/all_products").then((res) => res.json())
+        .then((data) => [setProducts(data)]).catch((error) => {
+            console.log(error);
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     
     const categoryViewKids = (kids || []).map((element)=>
                     element!=='all' ? <Col onClick={handleShow} value={element} id='kids' className="h5 ps-2" xs={3} md={2} lg={1}><Button variant="outline-dark">{element}</Button></Col> : <Col className="d-none"></Col>
@@ -89,6 +102,19 @@ function Admin(props) {
         }
         return cookieValue;
     }
+
+    const productView = (products || []).map((element)=>
+                    <Col id={element.id} className="product-details mt-1 p-3" key={element.id} xs={4} md={2}>
+                        <div className="admin-product-details">                                        
+                            <div className="text-start ps-1 text-capitalize background-text">{element.name}</div>
+                            <div className="text-start ps-1 text-capitalize background-text">{element.category}</div>
+                            <div className="text-start ps-1 text-capitalize background-text">{element.subcategory}</div>
+                            <div className="text-start ps-1 text-capitalize background-text">{element.sku}</div>
+                        </div>                                          
+                        <img src={process.env.PUBLIC_URL + media + element.image} className={'image' + element.id} alt={element.name} />
+                        <div className="text-center"><a href="#"><i class="h5 text-danger fa-solid fa-trash-can"></i></a></div>
+                    </Col>
+    )
     
 
     const handleProductSubmit = (e) => {
@@ -109,13 +135,17 @@ function Admin(props) {
 
         fetch("/api/add_product", {method: 'POST', headers: {'X-CSRFToken': csrftoken},
             "Content-Type": "multipart/form-data", body: formData}).then((res) => {
-            window.location.reload();
             setShow(false)
+            res.status===200 ? flashMessages('Product Added') : flashMessages('Error!') 
+            setTimeout(() => {
+                flashMessages(null)
+            }, 3000);
         });
       }
 
     return (
         <div className="admin-view">
+            {flash ? <div className="flash-messages">{flash}</div> : <div></div>}  
             {localStorage.getItem("login")!=='true' ? <Navigate to='/' /> : <div></div>}
             <Row className="m-0 text-center h3">
                 <Col xs={12}>Admin</Col>
@@ -131,6 +161,12 @@ function Admin(props) {
             <Row className="m-0 h4">
                 <Col xs={12} className="mb-2 border-bottom border-secondary"><i class="fas fa-plus-circle"></i> Men</Col>
                 {categoryViewMen}  
+            </Row>
+            <Row className="m-0 text-center h3">
+                <Col xs={12}>Products</Col>
+            </Row>
+            <Row className='m-0 mt-2'>
+                {productView}
             </Row>
             <Modal className="product-form" show={show} onHide={handleClose}>
                 <Modal.Header className="m-0 p-2" closeButton>

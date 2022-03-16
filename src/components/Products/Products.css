@@ -31,20 +31,25 @@
 
 img {
     width: 100%;
-    transition: all .3s ease-in-out; 
+    transition: all .3s ease-in-out;
 }
 
 .bg-details {
     overflow: hidden;
+    background-image: url(../media/back.jpg);   
+}
+
+.bg-text {
+    background-color: rgba(0, 0, 0, 0.699);
 }
 
 
 .text-grey { 
-    color: rgb(161, 161, 161);
+    color: rgb(238,232,170);
 }
 
 .text-light-grey {
-    color: rgb(170, 170, 170);
+    color: rgb(238,232,170);
     font-weight: 400;
 }
 
@@ -58,8 +63,12 @@ img {
     font-size: 12px;
 }
 
-.product-details {
+.image-container {
     overflow: hidden;
+}
+
+.product-details {
+    padding: 0px;
 }
 
 @media screen and (max-width: 576px){    

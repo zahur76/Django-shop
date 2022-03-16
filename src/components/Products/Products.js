@@ -5,7 +5,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { InputGroup, FormControl } from 'react-bootstrap';
 import { useEffect, useState } from "react";
-import { isElement } from "react-dom/test-utils";
 
 
 function Products(props) {
@@ -96,15 +95,17 @@ function Products(props) {
     }
 
     const productView = (products || []).map((element)=>
-                    <Col onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} id={element.id} className="product-details mt-3" key={element.id} xs={6} sm={4} md={3} lg={2}>                 
-                        <a href="#">                            
-                            <img src={process.env.PUBLIC_URL + media + element.image} className={'image' + element.id} alt={element.name} />
-                            <div className="bg-details">
-                                <div className="text-start text-grey ps-3 pt-2">$ {element.price}</div>
-                                <div className="text-start text-light-grey ps-3">{element.name}</div>
-                                {handleRating(element.rating)}                                
-                            </div>
-                        </a>                            
+                    <Col onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} id={element.id} className="product-details mt-2" key={element.id} xs={6} sm={4} md={3} lg={2}>
+                        <div className="m-2">     
+                        <a href="#">
+                                <div className="image-container"><img src={process.env.PUBLIC_URL + media + element.image} className={'image' + element.id} alt={element.name} /></div>                         
+                                <div className="bg-details">
+                                    <div className="text-start bg-text text-grey ps-3 pt-2">$ {element.price}</div>
+                                    <div className="text-start bg-text text-light-grey ps-3">{element.name}</div>
+                                    <div className="ps-3 bg-text ">{handleRating(element.rating)}</div>                                                    
+                                </div>
+                            </a>
+                        </div>                                    
                     </Col>
     )
 
@@ -141,7 +142,7 @@ function Products(props) {
             </Row>
             <div className="text-secondary breadcrumbs ps-3 mt-2">{category.toUpperCase()} > {subCategorySelect.toUpperCase()}</div>  
             <div className="Products mt-2">
-                <Row className="m-0 p-1">
+                <Row className="m-0 p-0">
                     {productView}
                 </Row>
             </div>

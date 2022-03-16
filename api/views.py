@@ -8,8 +8,23 @@ from django.shortcuts import HttpResponse, get_object_or_404
 import json
 from django.contrib.auth import authenticate, login, logout
 from .models import Product, Category, subCategory
+from django.forms.models import model_to_dict
 
 # Create your views here.
+def all_products(request):
+    """View to return all products"""
+    all_category = Category.objects.all()
+    all_subcategory = subCategory.objects.all()
+    product_list = []
+    all_products = Product.objects.all().values('id', 'category', 'subcategory', 'name', 'sku', 'image')
+    for product in all_products:
+        product_list.append(product)
+        product['category'] = all_category.filter(id=product['category']).values('name')[0]['name']
+        product['subcategory'] = all_subcategory.filter(id=product['subcategory']).values('name')[0]['name']
+
+    return HttpResponse(json.dumps(product_list), content_type="application/json")
+
+
 @require_POST
 @csrf_exempt
 def login_view(request):
@@ -84,6 +99,9 @@ def category_list(request):
 @require_POST
 def add_product(request):
     """View to add product"""
+    if not request.user.is_superuser:
+
+        return HttpResponse(status=500)
 
     if request.method == "POST":
 

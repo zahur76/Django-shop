@@ -5,3 +5,27 @@
 .product-form {
     top: 15% !important;
 }
+
+.admin-product-details {
+    color: rgb(255, 255, 255) !important;
+}
+
+.background-text {
+    background-color: rgba(170, 93, 93, 0.479);
+}
+
+@media screen and (max-width: 996px){    
+    .background-text  {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 576px){    
+    .background-text  {
+        font-size: 10px;
+    }
+    .admin-product-details {
+        top: 50px;
+    }
+    
+}
