@@ -122,8 +122,20 @@ def add_product(request):
             sizes_available=data["sizes_available"],
             image=file,
         )
-        new_product.save()
-       
+        new_product.save()      
         
 
         return HttpResponse(status=200)
+
+
+def delete_product(request, category_id):
+    """View to return subcategories for each list"""
+    print('sdsddsd')
+    if not request.user.is_superuser:
+        return HttpResponse(status=500)
+    
+
+
+    product = get_object_or_404(Product, id=category_id)
+    product.delete()
+    return HttpResponse(status=200)

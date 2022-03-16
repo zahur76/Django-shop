@@ -14,6 +14,8 @@ function Admin(props) {
     const [subCategory, setSubcategory] = useState(null)
     const [products, setProducts] = useState(null)
     const [media, setMedia] = useState('/media/')
+    const [update, setUpdate] = useState(null)
+
 
     // flash messages
     const [flash, flashMessages] = useState(null)
@@ -74,7 +76,7 @@ function Admin(props) {
             console.log(error);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [update])
     
     const categoryViewKids = (kids || []).map((element)=>
                     element!=='all' ? <Col onClick={handleShow} value={element} id='kids' className="h5 ps-2" xs={3} md={2} lg={1}><Button variant="outline-dark">{element}</Button></Col> : <Col className="d-none"></Col>
@@ -103,6 +105,18 @@ function Admin(props) {
         return cookieValue;
     }
 
+    const handleProductDelete = (event) => {
+        let elementId = event.currentTarget.id
+        fetch(`/api/delete_product/${elementId}`).then((res) =>
+         [res.status===200 ? flashMessages('Product Deleted') : flashMessages('Error!'), setUpdate(true)]).catch((error) => {
+            console.log(error);            
+        });
+        setTimeout(() => {
+            setUpdate(false)
+            flashMessages(null)
+        }, 3000);        
+    }
+
     const productView = (products || []).map((element)=>
                     <Col id={element.id} className="product-details mt-1 p-3" key={element.id} xs={4} md={2}>
                         <div className="admin-product-details">                                        
@@ -112,9 +126,9 @@ function Admin(props) {
                             <div className="text-start ps-1 text-capitalize background-text">{element.sku}</div>
                         </div>                                          
                         <img src={process.env.PUBLIC_URL + media + element.image} className={'image' + element.id} alt={element.name} />
-                        <div className="text-center"><a href="#"><i class="h5 text-danger fa-solid fa-trash-can"></i></a></div>
+                        <div className="text-center" onClick={handleProductDelete} id={element.id}><a href="#"><i class="h5 text-danger fa-solid fa-trash-can"></i></a></div>
                     </Col>
-    )
+    )    
     
 
     const handleProductSubmit = (e) => {
@@ -136,8 +150,10 @@ function Admin(props) {
         fetch("/api/add_product", {method: 'POST', headers: {'X-CSRFToken': csrftoken},
             "Content-Type": "multipart/form-data", body: formData}).then((res) => {
             setShow(false)
+            setUpdate(true)
             res.status===200 ? flashMessages('Product Added') : flashMessages('Error!') 
             setTimeout(() => {
+                setUpdate(false)
                 flashMessages(null)
             }, 3000);
         });
