@@ -102,7 +102,7 @@ function Products(props) {
                                 <div className="bg-details">
                                     <div className="text-start bg-text text-grey ps-3 pt-2">$ {element.price}</div>
                                     <div className="text-start bg-text text-light-grey ps-3">{element.name}</div>
-                                    <div className="ps-3 bg-text ">{handleRating(element.rating)}</div>                                                    
+                                    <div className="ps-3 pb-2 bg-text ">{handleRating(element.rating)}</div>                                                    
                                 </div>
                             </a>
                         </div>                                    
@@ -111,7 +111,7 @@ function Products(props) {
 
     const subcategoryMenu = (subcategory || []).map((element)=>
                 <div onClick={handleSubcategory} value={element} key={element} className="d-inline text-center"> 
-                    {subCategorySelect===element ? <a href="#" className="h6 p-2 ps-md-5 pe-md-5 no-link pb-1 subcategory-link">{element}</a> : <a href="#" className="h6 d-inline p-2 p-md-5 subcategory-link">{element}</a>}
+                    {subCategorySelect===element ? <a href="#" className="h6 m-2 m-md-4 no-link pb-1">{element}</a> : <a href="#" className="h6 m-2 m-md-4 d-inline">{element}</a>}
                 </div>                           
     )    
     

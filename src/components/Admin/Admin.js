@@ -126,7 +126,7 @@ function Admin(props) {
                             <div className="text-start ps-1 text-capitalize background-text">{element.sku}</div>
                         </div>                                          
                         <img src={process.env.PUBLIC_URL + media + element.image} className={'image' + element.id} alt={element.name} />
-                        <div className="text-center" onClick={handleProductDelete} id={element.id}><a href="#"><i class="h5 text-danger fa-solid fa-trash-can"></i></a></div>
+                        <Button variant="danger rounded-0 w-100 p-1" onClick={handleProductDelete} id={element.id}>Delete</Button>
                     </Col>
     )    
     
