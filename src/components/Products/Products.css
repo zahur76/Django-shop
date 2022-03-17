@@ -1,5 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Maitree&display=swap');
+
 .product-view {    
     min-height: calc(100vh - 65px);
+}
+
+.text-type {
+    font-family: 'Maitree', serif;
 }
 
 .search-bar {
@@ -36,13 +42,31 @@ img {
 
 .bg-details {
     overflow: hidden;
-    background-image: url(../media/back.jpg);   
+    background-image: url(../media/back.jpg); 
+}
+
+.product-name {
+    min-height: 50px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+     margin: 0;
 }
 
 .bg-text {
     background-color: rgba(0, 0, 0, 0.699);
 }
 
+.disable {
+    pointer-events: none;
+}
+
+.btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;
+ }
 
 .text-grey { 
     color: rgb(238,232,170);
@@ -69,6 +93,17 @@ img {
 
 .product-details {
     padding: 0px;
+}
+
+/* product-modal */
+.product-modal {
+    top: 20%;
+}
+
+.product-modal .modal-content {
+    background-color: white !important;
+    border-radius: 0;
+    border: none !important;
 }
 
 @media screen and (max-width: 576px){    

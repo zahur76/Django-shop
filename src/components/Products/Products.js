@@ -3,7 +3,7 @@ import { React } from "react";
 import './Products.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { InputGroup, FormControl } from 'react-bootstrap';
+import { InputGroup, FormControl, Modal, Button } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 
 
@@ -17,7 +17,34 @@ function Products(props) {
     const [media, setMedia] = useState('/media/')
     const [subcategory, setSubcategory] = useState(null)
     const [subCategorySelect, setSubcategorySelect] = useState('all')
+    const [productModal , setProductModal] = useState({id: '', 
+        subcategory: '', 
+        category: '', 
+        price: '',
+        sizes: '',
+        rating: '',
+         image: ''});
+    const [sizeIndex, setIndex] = useState(0)    
 
+    useEffect(() => {
+      }, [productModal]);
+
+
+    // Product Modal
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+
+    const handleShow = (event) => {
+        let productId = event.currentTarget.id
+        let newList = []
+        masterProducts.map((element)=>{
+            element.id.toString()===productId.toString() ? newList.push(element) : console.log('none')       
+            return newList            
+        })
+        setProductModal(newList[0])
+        setShow(true) 
+        console.log(productModal.sizes_available)
+    }
 
     const handleSearchTerm = (event) => {
         setSearchTerm(event.target.value)
@@ -28,9 +55,9 @@ function Products(props) {
             if(((element.name).toLowerCase()).includes(term.toLowerCase())){
                 newList.push(element)                    
             }
-            setProducts(newList)
+            setProducts(newList)            
             return newList
-        })    
+        })         
     }
 
     const handleCategory= (event) => {
@@ -97,11 +124,11 @@ function Products(props) {
     const productView = (products || []).map((element)=>
                     <Col onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} id={element.id} className="product-details mt-2" key={element.id} xs={6} sm={4} md={3} lg={2}>
                         <div className="m-2">     
-                        <a href="#">
+                        <a href="#" onClick={handleShow} id={element.id}>
                                 <div className="image-container"><img src={process.env.PUBLIC_URL + media + element.image} className={'image' + element.id} alt={element.name} /></div>                         
                                 <div className="bg-details">
                                     <div className="text-start bg-text text-grey ps-3 pt-2">$ {element.price}</div>
-                                    <div className="text-start bg-text text-light-grey ps-3">{element.name}</div>
+                                    <div className="text-start bg-text text-light-grey ps-3 text-type product-name">{element.name}</div>
                                     <div className="ps-3 pb-2 bg-text ">{handleRating(element.rating)}</div>                                                    
                                 </div>
                             </a>
@@ -113,10 +140,20 @@ function Products(props) {
                 <div onClick={handleSubcategory} value={element} key={element} className="d-inline text-center"> 
                     {subCategorySelect===element ? <a href="#" className="h6 m-2 m-md-4 no-link pb-1">{element}</a> : <a href="#" className="h6 m-2 m-md-4 d-inline">{element}</a>}
                 </div>                           
-    )    
+    )
+
+    const handleSizeSelection= (event) => {
+        let size = event.currentTarget.id
+        setIndex(size)
+    }
+    
+    
+    const productSizes = (productModal.sizes_available || []).map((element, index)=>{
+        return index===parseInt(sizeIndex) ? <Col xs={4} className="text-center p-1"><Button className="bg-dark text-light rounded-0 w-100 p-1 disable">{element}</Button></Col> : <Col xs={4} onClick={handleSizeSelection} id={index} className="text-center p-1"><Button variant="outline-dark rounded-0 w-100 p-1">{element}</Button></Col>
+    })
     
     return (
-        <div className="product-view">                 
+        <div className="product-view">             
             <div className="search-bar">
                 <Row className="m-0 p-2">
                     <Col xs={12} md={5}>
@@ -146,6 +183,29 @@ function Products(props) {
                     {productView}
                 </Row>
             </div>
+            <Modal className="product-modal" show={show} onHide={handleClose}>
+                <Modal.Body className="pb-1">
+                    <Row className="mb-2">
+                        <Col xs="6"><div className="image-container"><img src={process.env.PUBLIC_URL + media +productModal.image} className={'image' + productModal.id} alt={productModal.name} /></div>  </Col>
+                        <Col xs="6">
+                            <div className="modal-details-box">
+                                <div className="text-start text-secondary ps-1 pt-2 text-type border-bottom">{productModal.name}</div> 
+                                <div className="text-start text-dark ps-1 pt-2">$ {productModal.price}</div>                                
+                                <div className="pb-2 border-bottom">{handleRating(productModal.rating)}</div>                             
+                            </div>
+                            <div className="text-start text-dark ps-1 pt-1 text-type">Quantity</div>   
+                            <InputGroup className="mb-2 w-50 mt-2" size="sm">
+                                <FormControl className="bg-light rounded-0" type="number" aria-label="quanitity" defaultValue={1} />
+                            </InputGroup>
+                            <div className="text-start text-dark ps-1 text-type">Sizes</div>                            
+                            <Row className="sizes p-1 mb-1">
+                                {productSizes}
+                            </Row>    
+                        </Col>
+                    </Row>
+                    <Button variant="outline-dark rounded-0 w-100 mb-2">ADD TO BASKET</Button>                         
+                </Modal.Body>
+            </Modal>
         </div>
     );
 }

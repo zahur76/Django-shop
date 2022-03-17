@@ -80,6 +80,8 @@ def category_view(request, category):
         data['rating'] = round(data['rating'])
         data['category']= category
         data['subcategory']=subcategory[data['subcategory']]
+        data['sizes_available']= data['sizes_available'].split(',')
+
     product_dict['products']=product_list
     product_dict['subcategory']=subcategory_list
     
