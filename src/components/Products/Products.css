@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Maitree&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300&family=Maitree&display=swap');
 
 .product-view {    
     min-height: calc(100vh - 65px);
 }
 
 .text-type {
-    font-family: 'Maitree', serif;
+    font-family: 'Fredoka', serif;
 }
 
 .search-bar {
@@ -98,6 +98,11 @@ input::-webkit-inner-spin-button {
 /* product-modal */
 .product-modal {
     top: 20%;
+}
+
+input.quantity {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid black;
 }
 
 .product-modal .modal-content {

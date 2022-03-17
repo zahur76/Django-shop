@@ -195,7 +195,7 @@ function Products(props) {
                             </div>
                             <div className="text-start text-dark ps-1 pt-1 text-type">Quantity</div>   
                             <InputGroup className="mb-2 w-50 mt-2" size="sm">
-                                <FormControl className="bg-light rounded-0" type="number" aria-label="quanitity" defaultValue={1} />
+                                <FormControl className="bg-light rounded-0 quantity" type="number" aria-label="quanitity" defaultValue={1} />
                             </InputGroup>
                             <div className="text-start text-dark ps-1 text-type">Sizes</div>                            
                             <Row className="sizes p-1 mb-1">
