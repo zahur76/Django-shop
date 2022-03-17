@@ -26,6 +26,7 @@ function Products(props) {
          image: ''});
     const [sizeIndex, setIndex] = useState(0)    
 
+    // force rerender when when product modal infor changes
     useEffect(() => {
       }, [productModal]);
 
