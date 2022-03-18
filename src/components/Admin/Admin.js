@@ -147,7 +147,7 @@ function Admin(props) {
         var csrftoken = getCookie('csrftoken');
         console.log(formData)
 
-        fetch("/api/add_product", {method: 'POST', headers: {"access-control-allow-origin": "*", 'X-CSRFToken': csrftoken},
+        fetch("/api/add_product", {method: 'POST', headers: {'X-CSRFToken': csrftoken},
             "Content-Type": "multipart/form-data", body: formData}).then((res) => {
             setShow(false)
             setUpdate(true)

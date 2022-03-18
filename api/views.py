@@ -53,6 +53,7 @@ def logout_view(request):
 
 def category_view(request, category):
     """View to return category products"""
+    print('sdddsdd')
     category_ = get_object_or_404(Category, name=category)
     all_subcategory = get_object_or_404(Category, name=category).cat.all()
     subcategory = {}
