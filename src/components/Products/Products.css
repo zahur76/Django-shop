@@ -111,6 +111,10 @@ input.quantity {
     border: none !important;
 }
 
+.element-id {
+    display: none;
+}
+
 @media screen and (max-width: 576px){    
     .subcategory-link, .breadcrumbs{
         font-size: 14px;

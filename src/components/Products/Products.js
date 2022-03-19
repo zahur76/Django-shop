@@ -24,13 +24,20 @@ function Products(props) {
         sizes: '',
         rating: '',
          image: ''});
-    const [sizeIndex, setIndex] = useState(0)    
+    const [sizeIndex, setIndex] = useState(0)
+    
+    // handle product modal basket
+    const [quantity, setQuantity] = useState(JSON.parse(localStorage.getItem('basket')).length)
+
+    //Basket cookie
+    const [basket, setBasket] = useState(localStorage.getItem('basket', JSON.stringify([])));
+
 
     // force rerender when when product modal infor changes
     useEffect(() => {
-      }, [productModal]);
+      }, [productModal, quantity]);
 
-
+    
     // Product Modal
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -44,7 +51,6 @@ function Products(props) {
         })
         setProductModal(newList[0])
         setShow(true) 
-        console.log(productModal.sizes_available)
     }
 
     const handleSearchTerm = (event) => {
@@ -128,9 +134,9 @@ function Products(props) {
                         <a href="#" onClick={handleShow} id={element.id}>
                                 <div className="image-container"><img src={process.env.PUBLIC_URL + media + element.image} className={'image' + element.id} alt={element.name} /></div>                         
                                 <div className="bg-details">
-                                    <div className="text-start bg-text text-grey ps-3 pt-2">$ {element.price}</div>
-                                    <div className="text-start bg-text text-light-grey ps-3 text-type product-name">{element.name}</div>
-                                    <div className="ps-3 pb-2 bg-text ">{handleRating(element.rating)}</div>                                                    
+                                    <div className="text-start bg-text text-grey ps-2 pt-2">$ {element.price}</div>
+                                    <div className="text-start bg-text text-light-grey ps-2 text-type product-name">{element.name}</div>
+                                    <div className="ps-2 pb-2 bg-text ">{handleRating(element.rating)}</div>                                                    
                                 </div>
                             </a>
                         </div>                                    
@@ -143,7 +149,7 @@ function Products(props) {
                 </div>                           
     )
 
-    const handleSizeSelection= (event) => {
+    const handleSizeSelection = (event) => {
         let size = event.currentTarget.id
         setIndex(size)
     }
@@ -152,9 +158,23 @@ function Products(props) {
     const productSizes = (productModal.sizes_available || []).map((element, index)=>{
         return index===parseInt(sizeIndex) ? <Col xs={4} className="text-center p-1"><Button className="bg-dark text-light rounded-0 w-100 p-1 disable">{element}</Button></Col> : <Col xs={4} onClick={handleSizeSelection} id={index} className="text-center p-1"><Button variant="outline-dark rounded-0 w-100 p-1">{element}</Button></Col>
     })
+
+    const handleQuantity = (event) => {
+        setQuantity(event.target.value)
+    }
+
+    const handleAddToBasket = (event) => {
+        // localStorage.setItem('basket', JSON.stringify([]))
+        let addBasket = JSON.parse(localStorage.getItem('basket'))
+        addBasket.push({'id': productModal.id, 'quantity': quantity, 'size': productModal.sizes_available[parseInt(sizeIndex)]})
+        localStorage.setItem('basket', JSON.stringify(addBasket))
+        setQuantity(addBasket.length)
+        props.onQuantity(quantity)
+        setShow(false)    
+    }
     
     return (
-        <div className="product-view">             
+        <div className="product-view">
             <div className="search-bar">
                 <Row className="m-0 p-2">
                     <Col xs={12} md={5}>
@@ -190,13 +210,14 @@ function Products(props) {
                         <Col xs="6"><div className="image-container"><img src={process.env.PUBLIC_URL + media +productModal.image} className={'image' + productModal.id} alt={productModal.name} /></div>  </Col>
                         <Col xs="6">
                             <div className="modal-details-box">
+                                <div className="element-id">{productModal.id}</div> 
                                 <div className="text-start text-secondary ps-1 pt-2 text-type border-bottom">{productModal.name}</div> 
                                 <div className="text-start text-dark ps-1 pt-2">$ {productModal.price}</div>                                
                                 <div className="pb-2 border-bottom">{handleRating(productModal.rating)}</div>                             
                             </div>
                             <div className="text-start text-dark ps-1 pt-1 text-type">Quantity</div>   
                             <InputGroup className="mb-2 w-50 mt-2" size="sm">
-                                <FormControl className="bg-light rounded-0 quantity" type="number" aria-label="quanitity" defaultValue={1} />
+                                <FormControl className="bg-light rounded-0 quantity" type="number" aria-label="quanitity" defaultValue={1} onChange={handleQuantity} value={quantity}/>
                             </InputGroup>
                             <div className="text-start text-dark ps-1 text-type">Sizes</div>                            
                             <Row className="sizes p-1 mb-1">
@@ -204,7 +225,7 @@ function Products(props) {
                             </Row>    
                         </Col>
                     </Row>
-                    <Button variant="outline-dark rounded-0 w-100 mb-2">ADD TO BASKET</Button>                         
+                    <Button onClick={handleAddToBasket} variant="outline-dark rounded-0 w-100 mb-2">ADD TO BASKET</Button>                         
                 </Modal.Body>
             </Modal>
         </div>

@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import './Header.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { Collapse, Card, Modal, InputGroup, FormControl} from "react-bootstrap";
+import { Collapse, Card, Modal, InputGroup, FormControl, Button} from "react-bootstrap";
 
 
 function Header(props) {
@@ -17,6 +17,10 @@ function Header(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // Basket
+    const [basketActive, setBasketActive] = useState(true);
+
+
     // flash messages
     const [flash, flashMessages] = useState(null)
 
@@ -25,7 +29,24 @@ function Header(props) {
     const [password, setPassword] = useState(null);
     const [login, setLogin] = useState(localStorage.getItem("login"));
     const [logout, setLogout] = useState(null)
-   
+
+    //Basket cookie
+    const [basket, setBasket] = useState(props.onQuantity);
+    const [basketProp, setBasketProp] = useState(<i class="fa-solid fa-basket-shopping text-success"></i>);
+    const [render, setRender] = useState(false)
+
+    useEffect(() => {
+        setBasket(props.onQuantity)
+        if(render){            
+            setBasketProp(<i class="fa-solid fa-basket-shopping text-primary"></i>)
+            setTimeout(() => {
+                setBasketProp(<i class="fa-solid fa-basket-shopping text-success"></i>)
+            }, 1000);            
+        }else{
+            setRender(true)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.onQuantity]);
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value)
@@ -61,16 +82,28 @@ function Header(props) {
         });
     }
 
+    const handleBasketActive = () => {
+        if(basketActive){            
+            setBasketActive(false)
+            props.setActive(basketActive)
+
+        }else{
+            setBasketActive(true)
+            props.setActive(basketActive)
+        }
+        
+    }
+
     return (
         <div>
-            {logout}
-            {flash ? <div className="flash-messages">{flash}</div> : <div></div>}        
+            {logout}            
+            {flash ? <div className="flash-messages">{flash}</div> : <div></div>}    
             <Row className='header m-0 bg-dark'>
-                <Col className='logo text-start p-2 text-light' xs={8} md={3}>Logo {login}</Col>
+                <Col className='logo text-start p-2 text-light' xs={8} md={3}>Logo {login} {basketActive}</Col>
                 <Col className='links text-end p-2 d-none d-md-block' md={9}>
                     <a className="p-2" href="/">Home</a>
                     {login==='true' ? <a href="#"></a> : <a className="p-2" href="#">Contact Us</a>}
-                    {login==='true' ? <a href="#"></a> : <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>}
+                    {login==='true' ? <a href="#"></a> : basket!==0 ? <a onClick={handleBasketActive} className="p-2" href="#" value={props.onQuantity}>{basketProp}</a> : <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>}
                     {login==='true' ? <a className="p-2" href="/admin"><i className="text-success fas fa-user"></i></a> : <a onClick={handleShow} className="p-2" href="#"><i class="fas fa-user"></i></a>}
                     {login==='true' ? <a onClick={handleLogout} className="p-2" href="#"><i class="fas fa-sign-out"></i></a> : <div></div>}         
                 </Col>
@@ -93,10 +126,10 @@ function Header(props) {
             </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header className="m-0 p-2" closeButton>
-                    <Modal.Title><div className="text-light">Login</div></Modal.Title>
+                    <Modal.Title><div className="text-dark">Login</div></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form className="p-2" onSubmit={handleLoginSubmit}>
+                    <form className="p-2 login-modal" onSubmit={handleLoginSubmit}>
                         <InputGroup className="mb-3 sign-in">
                             <InputGroup.Text id="basic-addon1"><i class="fa-solid fa-user"></i></InputGroup.Text>
                             <FormControl placeholder="Username" username={username} onChange={handleUsernameChange} aria-label="Username" aria-describedby="basic-addon1" required/>
@@ -105,7 +138,7 @@ function Header(props) {
                             <InputGroup.Text id="basic-addon1"><i class="fa-solid fa-key"></i></InputGroup.Text>
                             <FormControl type="password" password={password} onChange={handlePasswordChange} placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required/>
                         </InputGroup>
-                        <input className="col-12 btn submit-button text-light mt-2 border-light" type="submit" value="Submit" />
+                        <Button variant="outline-dark rounded-0 w-100 mb-2" type="submit" >Submit</Button>  
                     </form>
                 </Modal.Body>
             </Modal>

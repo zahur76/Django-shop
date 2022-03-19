@@ -30,21 +30,26 @@ a:hover {
 }
 
 .modal {
-    top: 25%    
+    top: 25%;    
 }
 
 .modal-content {
-    background-color:rgba(0, 0, 0, 0.61);
-    background-size: 200%;
+    background-color:rgb(255, 237, 237);
+    border-radius: 0;
 }
 
-.submit-button {
-    background-color: rgba(136, 136, 136, 0.678);
-    border: none;
+.login-modal input{
+    background-color: white;
 }
 
-.submit-button:hover {
-    background-color: rgba(216, 216, 216, 0.678);
+.item-quantity {
+    position: absolute;
+    top: 5px;
+    right: 55px;
+    border-radius: 50%;
+    background-color: rgba(9, 255, 0, 0.623);
+    padding: 5px;
+    color: white !important;
 }
 
 /* flash messages */
