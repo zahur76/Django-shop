@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { InputGroup, FormControl, Modal, Button, Offcanvas } from 'react-bootstrap';
 import { useEffect, useState } from "react";
+import { counter } from "@fortawesome/fontawesome-svg-core";
 
 
 function Products(props) {
@@ -14,6 +15,7 @@ function Products(props) {
     const [category, setCategory] = useState('women')
     const [products, setProducts] = useState(null);
     const [masterProducts, setMasterProduct] = useState(null);
+    const [allProducts, setAllProducts] = useState(null);
     const [media, setMedia] = useState('/media/')
     const [subcategory, setSubcategory] = useState(null)
     const [subCategorySelect, setSubcategorySelect] = useState('all')
@@ -35,7 +37,7 @@ function Products(props) {
 
     // force rerender when when product modal infor changes
     useEffect(() => {
-      }, [productModal, quantity]);
+      }, [productModal, quantity, basket]);
 
     
     // Product Modal
@@ -161,11 +163,34 @@ function Products(props) {
                 </div>                           
     )
 
+
+    const handleItemDelete = (event) => {
+        console.log(event.target.id)
+        let addBasket = JSON.parse(localStorage.getItem('basket'))
+        addBasket.splice(event.target.id, 1)
+        console.log(addBasket)
+        localStorage.setItem('basket', JSON.stringify(addBasket))
+        setBasket(localStorage.getItem('basket'))
+        setQuantity(1)
+        props.onQuantity(addBasket.length)
+    }
+    
+    const basketView = (JSON.parse(basket) || []).map((element, index)=>
+                <Row className="m-0 pb-2" key={index}>
+                    <Col xs={9} md={10} className='border-bottom border-secondary text-basket'>{index+1}.{element.name}</Col>
+                    <Col xs={3} md={2} className='border-bottom border-secondary'><div onClick={handleItemDelete} id={index} className="text-center text-danger btn p-0">Delete</div></Col>
+                    <Col xs={5} className='text-secondary'>Quantity: {element.quantity}</Col>
+                    <Col xs={5} className='text-secondary'>Size: {element.size}</Col>
+                    <Col xs={2}></Col>
+                    <Col xs={8} className='text-secondary'>Price:</Col>
+                    <Col xs={4} className='text-end'>{element.price}</Col>
+                </Row>                          
+    )
+
     const handleSizeSelection = (event) => {
         let size = event.currentTarget.id
         setIndex(size)
-    }
-    
+    }    
     
     const productSizes = (productModal.sizes_available || []).map((element, index)=>{
         return index===parseInt(sizeIndex) ? <Col xs={4} className="text-center p-1"><Button className="bg-dark text-light rounded-0 w-100 p-1 disable">{element}</Button></Col> : <Col xs={4} onClick={handleSizeSelection} id={index} className="text-center p-1"><Button variant="outline-dark rounded-0 w-100 p-1">{element}</Button></Col>
@@ -174,19 +199,22 @@ function Products(props) {
     const handleQuantity = (event) => {
         setQuantity(event.target.value)
     }
-
+    
     const handleAddToBasket = (event) => {
         // localStorage.setItem('basket', JSON.stringify([]))
         let addBasket = JSON.parse(localStorage.getItem('basket'))
-        addBasket.push({'id': productModal.id, 'quantity': quantity, 'size': productModal.sizes_available[parseInt(sizeIndex)]})
+        addBasket.push({'id': productModal.id, 'name': productModal.name, 'price':productModal.price, 'quantity': quantity, 'size': productModal.sizes_available[parseInt(sizeIndex)]})
         localStorage.setItem('basket', JSON.stringify(addBasket))
-        setQuantity(addBasket.length)
+        setBasket(localStorage.getItem('basket'))
+        setQuantity(1)
         props.onQuantity(quantity)
-        setShow(false)    
+        setShow(false)
+        setIndex(0)    
     }
-    
+
+       
     return (
-        <div className="product-view">    
+        <div className="product-view">
             <div className="search-bar">
                 <Row className="m-0 p-2">
                     <Col xs={12} md={5}>
@@ -240,14 +268,14 @@ function Products(props) {
                     <Button onClick={handleAddToBasket} variant="outline-dark rounded-0 w-100 mb-2">ADD TO BASKET</Button>                         
                 </Modal.Body>
             </Modal>
-            <Offcanvas show={basketModal} onHide={handleCloseBasket} placement='end'>
+            <Offcanvas className="p-2" show={basketModal} onHide={handleCloseBasket} placement='end'>
                 <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                <Offcanvas.Title className="border-bottom text-center ps-3 pe-3">My Basket</Offcanvas.Title>
                 </Offcanvas.Header>
-                <Offcanvas.Body>
-                Some text as placeholder. In real life you can have the elements you
-                have chosen. Like, text, images, lists, etc.
+                <Offcanvas.Body>                    
+                    {basketView}                                      
                 </Offcanvas.Body>
+                <Button variant="dark rounded-0 w-100 m-4 mx-auto">CHECKOUT</Button> 
             </Offcanvas>
         </div>
     );

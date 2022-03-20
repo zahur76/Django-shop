@@ -102,7 +102,7 @@ function Header(props) {
                     {login==='true' ? <a onClick={handleLogout} className="p-2" href="#"><i class="fas fa-sign-out"></i></a> : <div></div>}         
                 </Col>
                 <Col className='links text-end p-2 d-md-none text-light'>
-                    <a className="p-2 d-inline" href="#"><i class="fa-solid fa-basket-shopping"></i></a>
+                    {login==='true' ? <a href="#"></a> : basket!==0 ? <a onClick={handleBasketActive} className="p-2" href="#" value={props.onQuantity}>{basketProp}</a> : <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>}
                     <div className="d-inline p-1" onClick={() => setOpen(!open)}>{open ? <i class="fa-solid fa-xmark"></i>: <i class="fa-solid fa-bars"></i>}</div>
                 </Col>                          
             </Row>

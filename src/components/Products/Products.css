@@ -4,7 +4,7 @@
     min-height: calc(100vh - 65px);
 }
 
-.text-type {
+.text-type, .text-basket {
     font-family: 'Fredoka', serif;
 }
 
