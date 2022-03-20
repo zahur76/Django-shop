@@ -14,6 +14,8 @@ import {
 function App() {
 
   const[quantity, itemQuantity]=useState(null);
+  const[active, setOnActive]=useState(null);
+
   
   function onQuantity(quantity) {
     console.log(quantity)
@@ -21,15 +23,21 @@ function App() {
   }
 
   function onActive(active) {
-    console.log(active)
+    setOnActive(active)
   }
-  
+
+
+  function onStatus(status) {
+    setOnActive(status)
+  }
+
+
   
   return (
     <div className="App">
       <BrowserRouter>
         <Routes className="App">
-            <Route path="/" element={<div><Header setActive={onActive} onQuantity={quantity} /> <Products onQuantity={onQuantity} /> <Footer /> </div>} />
+            <Route path="/" element={<div><Header setActive={onActive} onQuantity={quantity} /> <Products  setStatus={onStatus} onQuantity={onQuantity} onActive={active}/> <Footer /> </div>} />
             <Route path="/admin" element={<div><Header /> <Admin/> <Footer /> </div>} />
         </Routes>
       </BrowserRouter>

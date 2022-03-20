@@ -46,7 +46,8 @@ function Header(props) {
             setRender(true)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.onQuantity]);
+    }, [props.onQuantity]);    
+
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value)
@@ -82,24 +83,17 @@ function Header(props) {
         });
     }
 
-    const handleBasketActive = () => {
-        if(basketActive){            
-            setBasketActive(false)
-            props.setActive(basketActive)
-
-        }else{
-            setBasketActive(true)
-            props.setActive(basketActive)
-        }
-        
+    const handleBasketActive = () => {                      
+        props.setActive(basketActive)
     }
 
     return (
         <div>
+
             {logout}            
             {flash ? <div className="flash-messages">{flash}</div> : <div></div>}    
             <Row className='header m-0 bg-dark'>
-                <Col className='logo text-start p-2 text-light' xs={8} md={3}>Logo {login} {basketActive}</Col>
+                <Col className='logo text-start p-2 text-light' xs={8} md={3}>Logo {login}</Col>
                 <Col className='links text-end p-2 d-none d-md-block' md={9}>
                     <a className="p-2" href="/">Home</a>
                     {login==='true' ? <a href="#"></a> : <a className="p-2" href="#">Contact Us</a>}

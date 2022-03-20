@@ -3,7 +3,7 @@ import { React } from "react";
 import './Products.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { InputGroup, FormControl, Modal, Button } from 'react-bootstrap';
+import { InputGroup, FormControl, Modal, Button, Offcanvas } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 
 
@@ -41,6 +41,18 @@ function Products(props) {
     // Product Modal
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
+
+    const [basketModal, setSBasketModal] = useState(false);
+    const handleCloseBasket = () => {
+        setSBasketModal(false)
+        props.setStatus(false)
+    };
+
+    useEffect(() => {        
+        setSBasketModal(props.onActive)
+        console.log(props.onActive)        
+    }, [props.onActive])
+
 
     const handleShow = (event) => {
         let productId = event.currentTarget.id
@@ -174,7 +186,7 @@ function Products(props) {
     }
     
     return (
-        <div className="product-view">
+        <div className="product-view">    
             <div className="search-bar">
                 <Row className="m-0 p-2">
                     <Col xs={12} md={5}>
@@ -228,6 +240,15 @@ function Products(props) {
                     <Button onClick={handleAddToBasket} variant="outline-dark rounded-0 w-100 mb-2">ADD TO BASKET</Button>                         
                 </Modal.Body>
             </Modal>
+            <Offcanvas show={basketModal} onHide={handleCloseBasket} placement='end'>
+                <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                Some text as placeholder. In real life you can have the elements you
+                have chosen. Like, text, images, lists, etc.
+                </Offcanvas.Body>
+            </Offcanvas>
         </div>
     );
 }
