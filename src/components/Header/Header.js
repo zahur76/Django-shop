@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { React, useState, useEffect } from "react";
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import './Header.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -31,21 +31,25 @@ function Header(props) {
     const [logout, setLogout] = useState(null)
 
     //Basket cookie
-    const [basket, setBasket] = useState(props.onQuantity);
+    const [basket, setBasket] = useState(JSON.stringify([]));
     const [basketProp, setBasketProp] = useState(<i class="fa-solid fa-basket-shopping text-success"></i>);
     const [render, setRender] = useState(false)
 
+    //pathway to remove links
+    const location = useLocation();
+
     useEffect(() => {
-        setBasket(props.onQuantity)
-        if(render){            
-            setBasketProp(<i class="fa-solid fa-basket-shopping text-primary"></i>)
-            setTimeout(() => {
-                setBasketProp(<i class="fa-solid fa-basket-shopping text-success"></i>)
-            }, 1000);            
-        }else{
-            setRender(true)
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        setRender(true)
+    }, [basket]); 
+
+    useEffect(() => {
+        setBasket(localStorage.getItem('basket'))
+        console.log('render')
+                 
+        setBasketProp(<i class="fa-solid fa-basket-shopping text-primary"></i>)
+        setTimeout(() => {
+            setBasketProp(<i class="fa-solid fa-basket-shopping text-success"></i>)
+        }, 1000);    
     }, [props.onQuantity]);    
 
 
@@ -85,11 +89,10 @@ function Header(props) {
 
     const handleBasketActive = () => {                      
         props.setActive(basketActive)
-    }
+    }    
 
     return (
         <div>
-
             {logout}            
             {flash ? <div className="flash-messages">{flash}</div> : <div></div>}    
             <Row className='header m-0 bg-dark'>
@@ -97,12 +100,12 @@ function Header(props) {
                 <Col className='links text-end p-2 d-none d-md-block' md={9}>
                     <a className="p-2" href="/">Home</a>
                     {login==='true' ? <a href="#"></a> : <a className="p-2" href="#">Contact Us</a>}
-                    {login==='true' ? <a href="#"></a> : basket!==0 ? <a onClick={handleBasketActive} className="p-2" href="#" value={props.onQuantity}>{basketProp}</a> : <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>}
+                    {login==='true' || location.pathname==='/checkout' ? <a href="#"></a> : JSON.parse(basket).length!==0 ? <a onClick={handleBasketActive} className="p-2" href="#" value={props.onQuantity}>{basketProp}</a> : <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>}
                     {login==='true' ? <a className="p-2" href="/admin"><i className="text-success fas fa-user"></i></a> : <a onClick={handleShow} className="p-2" href="#"><i class="fas fa-user"></i></a>}
                     {login==='true' ? <a onClick={handleLogout} className="p-2" href="#"><i class="fas fa-sign-out"></i></a> : <div></div>}         
                 </Col>
                 <Col className='links text-end p-2 d-md-none text-light'>
-                    {login==='true' ? <a href="#"></a> : basket!==0 ? <a onClick={handleBasketActive} className="p-2" href="#" value={props.onQuantity}>{basketProp}</a> : <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>}
+                    {login==='true' ? <a href="#"></a> : JSON.parse(basket).length!==0 ? <a onClick={handleBasketActive} className="p-2" href="#" value={props.onQuantity}>{basketProp}</a> : <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>}
                     <div className="d-inline p-1" onClick={() => setOpen(!open)}>{open ? <i class="fa-solid fa-xmark"></i>: <i class="fa-solid fa-bars"></i>}</div>
                 </Col>                          
             </Row>

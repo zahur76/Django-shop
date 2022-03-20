@@ -2,6 +2,7 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer'
 import Products from '../Products/Products';
 import Admin from '../Admin/Admin'
+import Checkout from '../Checkout/Checkout';
 import './App.css'
 import { React, useState } from "react";
 
@@ -38,6 +39,7 @@ function App() {
         <Routes className="App">
             <Route path="/" element={<div><Header setActive={onActive} onQuantity={quantity} /> <Products  setStatus={onStatus} onQuantity={onQuantity} onActive={active}/> <Footer /> </div>} />
             <Route path="/admin" element={<div><Header /> <Admin/> <Footer /> </div>} />
+            <Route path="/checkout" element={<div><Header /> <Checkout /> <Footer /> </div>} />
         </Routes>
       </BrowserRouter>
     </div>

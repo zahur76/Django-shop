@@ -207,7 +207,7 @@ function Products(props) {
         localStorage.setItem('basket', JSON.stringify(addBasket))
         setBasket(localStorage.getItem('basket'))
         setQuantity(1)
-        props.onQuantity(quantity)
+        props.onQuantity(addBasket.length)
         setShow(false)
         setIndex(0)    
     }
@@ -275,7 +275,7 @@ function Products(props) {
                 <Offcanvas.Body>                    
                     {basketView}                                      
                 </Offcanvas.Body>
-                <Button variant="dark rounded-0 w-100 m-4 mx-auto">CHECKOUT</Button> 
+                <Button href="/checkout" variant="dark rounded-0 w-100 m-4 mx-auto">CHECKOUT</Button> 
             </Offcanvas>
         </div>
     );
