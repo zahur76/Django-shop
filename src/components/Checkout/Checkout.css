@@ -1,3 +1,7 @@
 .checkout {    
     min-height: calc(100vh - 65px);
 }
+
+.checkout-image {
+    width: 50px;
+}

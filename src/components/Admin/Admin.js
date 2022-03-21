@@ -120,7 +120,7 @@ function Admin(props) {
     const productView = (products || []).map((element)=>
                     <Col id={element.id} className="product-details mt-1 p-3" key={element.id} xs={4} md={2}>
                         <div className="admin-product-details">                                        
-                            <div className="text-start ps-1 text-capitalize background-text">{element.name}</div>
+                            <div className="text-start ps-1 text-capitalize background-text name">{element.name}</div>
                             <div className="text-start ps-1 text-capitalize background-text">{element.category}</div>
                             <div className="text-start ps-1 text-capitalize background-text">{element.subcategory}</div>
                             <div className="text-start ps-1 text-capitalize background-text">{element.sku}</div>

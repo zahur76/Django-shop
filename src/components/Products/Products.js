@@ -5,7 +5,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { InputGroup, FormControl, Modal, Button, Offcanvas } from 'react-bootstrap';
 import { useEffect, useState } from "react";
-import { counter } from "@fortawesome/fontawesome-svg-core";
 
 
 function Products(props) {

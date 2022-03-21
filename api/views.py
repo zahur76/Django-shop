@@ -11,18 +11,19 @@ from .models import Product, Category, subCategory
 from django.forms.models import model_to_dict
 
 # Create your views here.
-def all_products(request):
-    """View to return all products"""
-    all_category = Category.objects.all()
-    all_subcategory = subCategory.objects.all()
-    product_list = []
-    all_products = Product.objects.all().values('id', 'category', 'subcategory', 'name', 'sku', 'image')
-    for product in all_products:
-        product_list.append(product)
-        product['category'] = all_category.filter(id=product['category']).values('name')[0]['name']
-        product['subcategory'] = all_subcategory.filter(id=product['subcategory']).values('name')[0]['name']
+# def all_products(request):
+#     """View to return all products"""
+#     print('zahur')
+#     all_category = Category.objects.all()
+#     all_subcategory = subCategory.objects.all()
+#     product_list = []
+#     all_products = Product.objects.all().values('id', 'category', 'subcategory', 'name', 'sku', 'image')
+#     for product in all_products:
+#         product_list.append(product)
+#         product['category'] = all_category.filter(id=product['category']).values('name')[0]['name']
+#         product['subcategory'] = all_subcategory.filter(id=product['subcategory']).values('name')[0]['name']
 
-    return HttpResponse(json.dumps(product_list), content_type="application/json")
+#     return HttpResponse(json.dumps(product_list), content_type="application/json")
 
 
 @require_POST
@@ -87,6 +88,24 @@ def category_view(request, category):
     product_dict['subcategory']=subcategory_list
     
     return HttpResponse(json.dumps(product_dict), content_type="application/json")
+
+
+def all_products(request):
+    """View to return all products"""
+    print('zahur')
+    all_data =Product.objects.values(
+        "id",
+        "category",
+        "subcategory",
+        "name",
+        "price",
+        "sku",
+        "stock_available",
+        "sizes_available",
+        "image",
+    )
+    print(list(all_data))
+    return HttpResponse(json.dumps(list(all_data)), content_type="application/json")
 
 
 def category_list(request):
