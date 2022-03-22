@@ -5,3 +5,24 @@
 .checkout-image {
     width: 50px;
 }
+
+.checkout-form input {
+    background-color: white;
+}
+
+.order:hover {
+    background-color: rgb(255, 255, 255);
+    color: black;
+}
+
+@media screen and (max-width: 992px){    
+    .checkout-form{
+        width: 75% !important;
+    }
+}
+
+@media screen and (max-width: 576px){    
+    .checkout-form{
+        width: 90% !important;
+    }
+}

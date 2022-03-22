@@ -182,7 +182,7 @@ function Products(props) {
                     <Col xs={5} className='text-secondary'>Size: {element.size}</Col>
                     <Col xs={2}></Col>
                     <Col xs={8} className='text-secondary'>Price:</Col>
-                    <Col xs={4} className='text-end'>{element.price}</Col>
+                    <Col xs={4} className='text-end'>$ {element.price}</Col>
                 </Row>                          
     )
 
@@ -200,7 +200,6 @@ function Products(props) {
     }
     
     const handleAddToBasket = (event) => {
-        // localStorage.setItem('basket', JSON.stringify([]))
         let addBasket = JSON.parse(localStorage.getItem('basket'))
         addBasket.push({'id': productModal.id, 'name': productModal.name, 'price':productModal.price, 'quantity': quantity, 'size': productModal.sizes_available[parseInt(sizeIndex)]})
         localStorage.setItem('basket', JSON.stringify(addBasket))
@@ -210,7 +209,6 @@ function Products(props) {
         setShow(false)
         setIndex(0)    
     }
-
        
     return (
         <div className="product-view">
