@@ -28,7 +28,7 @@ function Products(props) {
     const [sizeIndex, setIndex] = useState(0)
 
     //Basket cookie
-    const [basket, setBasket] = useState(localStorage.getItem('basket', JSON.stringify([])));
+    const [basket, setBasket] = useState(localStorage.setItem('basket', JSON.stringify([])));
     
     // handle product modal basket
     const [quantity, setQuantity] = useState(1)
