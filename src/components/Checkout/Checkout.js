@@ -4,7 +4,7 @@ import './Checkout.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { InputGroup, FormControl, Button } from "react-bootstrap";
-
+import { Navigate } from 'react-router-dom';
 
 function Checkout(props) {
     
@@ -20,6 +20,7 @@ function Checkout(props) {
     const [address_one, setAddress_one] = useState(null);
     const [address_two, setAddress_two] = useState(null);
     const [phone_number, setPhone_Number] = useState(null);
+    const [checkout, setCheckout] = useState(null)
 
     const [allProducts, setAllProducts] = useState(null);
 
@@ -37,8 +38,7 @@ function Checkout(props) {
     const mediaFile = (id) => 
         (allProducts || []).map((element, index)=>
             element.id===id ? <img className="checkout-image m-2" src={process.env.PUBLIC_URL + media + element.image} alt={element.name} /> : console.log('')
-        )
-            
+        )            
 
     const basketView = (JSON.parse(basket) || []).map((element, index)=>
                 <Row className="m-0 pb-2" key={index}>
@@ -111,6 +111,7 @@ function Checkout(props) {
         formData.append('address_one', address_one)
         formData.append('address_two', address_two)
         formData.append('phone_number', phone_number)
+        formData.append('order', localStorage.getItem('basket'))
         console.log(formData)
 
         if(!firstname){
@@ -147,19 +148,19 @@ function Checkout(props) {
             var csrftoken = getCookie('csrftoken');
             fetch("/api/process_order", {method: 'POST', headers: {'X-CSRFToken': csrftoken},
                 "Content-Type": "multipart/form-data", body: formData}).then((res) => {
-                res.status===200 ? flashMessages('Order Received') : flashMessages('Error!') 
+                res.status===200 ? flashMessages('Order Received') : flashMessages('Error!')
+                localStorage.setItem("basket", JSON.stringify([]))                
                 setTimeout(() => {
+                    setCheckout(true)
                     flashMessages(null)
-                }, 3000);
+                }, 2000);
             });
-
-        }
-        
-    }
-    
+        }        
+    }    
 
     return (
         <div className="checkout">
+            {checkout ? <Navigate to='/' /> : console.log('')}
             {flash ? <div className="flash-messages">{flash}</div> : <div></div>}  
             <div className="h2 ps-5 mt-2 text-type">Checkout</div>
             <Row className="m-0">

@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import HttpResponse, get_object_or_404
 import json
 from django.contrib.auth import authenticate, login, logout
-from .models import Product, Category, subCategory
+from .models import Product, Category, subCategory, Order
 from django.forms.models import model_to_dict
 
 # Create your views here.
@@ -168,5 +168,14 @@ def process_order(request):
 
         data = request.POST
         print(data)
-
+        order = Order.objects.create(
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            email=data['email'],
+            address_one=data['address_one'],
+            address_two=data['address_two'],
+            phone_number=data['phone_number'],
+            json_order = data['order']
+        )
+        order.save()
     return HttpResponse(status=200)

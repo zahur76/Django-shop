@@ -65,3 +65,29 @@ class Product(models.Model):
             + (uuid.uuid4().hex.upper())[:8]
         )
         super().save(*args, **kwargs)
+
+
+class Order(models.Model):
+    class Meta:
+        verbose_name_plural = "Orders"
+
+    order_number = models.CharField(max_length=254)
+    created_at = models.DateTimeField(auto_now_add=True)
+    first_name =  models.CharField(max_length=254)
+    last_name =  models.CharField(max_length=254)
+    email=  models.CharField(max_length=254, default="domain@admin.com")
+    address_one =  models.CharField(max_length=254)
+    address_two =  models.CharField(max_length=254)
+    phone_number = models.CharField(max_length=254)
+    json_order = models.JSONField()
+
+    # Will return the actual name in admin fields
+    def __str__(self):
+        return self.order_number
+
+    def save(self, *args, **kwargs):
+        """
+        Create Order Number on save
+        """
+        self.order_number= uuid.uuid4().hex.upper()
+        super().save(*args, **kwargs)

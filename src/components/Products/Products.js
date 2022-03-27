@@ -26,17 +26,16 @@ function Products(props) {
         rating: '',
          image: ''});
     const [sizeIndex, setIndex] = useState(0)
-    
-    // handle product modal basket
-    const [quantity, setQuantity] = useState(JSON.parse(localStorage.getItem('basket')).length)
 
     //Basket cookie
     const [basket, setBasket] = useState(localStorage.getItem('basket', JSON.stringify([])));
-
-
+    
+    // handle product modal basket
+    const [quantity, setQuantity] = useState(JSON.parse(localStorage.getItem('basket')).length)
+    
     // force rerender when when product modal infor changes
     useEffect(() => {
-      }, [productModal, quantity, basket]);
+    }, [productModal, quantity, basket]);
 
     
     // Product Modal

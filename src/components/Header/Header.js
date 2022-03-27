@@ -43,7 +43,7 @@ function Header(props) {
     }, [basket]); 
 
     useEffect(() => {
-        setBasket(localStorage.getItem('basket'))
+        setBasket(localStorage.getItem('basket'), [])
         console.log('render')
                  
         setBasketProp(<i class="fa-solid fa-basket-shopping text-primary"></i>)
