@@ -152,12 +152,21 @@ def add_product(request):
 
 def delete_product(request, category_id):
     """View to return subcategories for each list"""
-    print('sdsddsd')
     if not request.user.is_superuser:
-        return HttpResponse(status=500)
-    
+        return HttpResponse(status=500)   
 
 
     product = get_object_or_404(Product, id=category_id)
     product.delete()
+    return HttpResponse(status=200)
+
+
+@require_POST
+def process_order(request):
+    """View to process product"""
+    if request.method == "POST":
+
+        data = request.POST
+        print(data)
+
     return HttpResponse(status=200)

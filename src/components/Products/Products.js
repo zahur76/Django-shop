@@ -41,7 +41,7 @@ function Products(props) {
     
     // Product Modal
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => [setShow(false), setQuantity(1)];
 
     const [basketModal, setSBasketModal] = useState(false);
     const handleCloseBasket = () => {
@@ -265,7 +265,7 @@ function Products(props) {
                     <Button onClick={handleAddToBasket} variant="outline-dark rounded-0 w-100 mb-2">ADD TO BASKET</Button>                         
                 </Modal.Body>
             </Modal>
-            <Offcanvas className="p-2" show={basketModal} onHide={handleCloseBasket} placement='end'>
+            <Offcanvas className="p-2 basket-view" show={basketModal} onHide={handleCloseBasket} placement='end'>
                 <Offcanvas.Header closeButton>
                 <Offcanvas.Title className="border-bottom text-center ps-3 pe-3">My Basket</Offcanvas.Title>
                 </Offcanvas.Header>
