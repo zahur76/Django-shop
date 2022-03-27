@@ -43,9 +43,12 @@ function Header(props) {
     }, [basket]); 
 
     useEffect(() => {
-        setBasket(localStorage.getItem('basket'), [])
-        console.log('render')
-                 
+        if(!localStorage.getItem('basket')){
+            setBasket([])
+        }else{
+            setBasket(localStorage.getItem('basket'), [])
+            console.log('render')
+        }                 
         setBasketProp(<i class="fa-solid fa-basket-shopping text-primary"></i>)
         setTimeout(() => {
             setBasketProp(<i class="fa-solid fa-basket-shopping text-success"></i>)

@@ -31,7 +31,7 @@ function Products(props) {
     const [basket, setBasket] = useState(localStorage.getItem('basket', JSON.stringify([])));
     
     // handle product modal basket
-    const [quantity, setQuantity] = useState(JSON.parse(1))
+    const [quantity, setQuantity] = useState(1)
     
     // force rerender when when product modal infor changes
     useEffect(() => {
