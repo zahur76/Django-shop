@@ -28,10 +28,10 @@ function Products(props) {
     const [sizeIndex, setIndex] = useState(0)
 
     //Basket cookie
-    const [basket, setBasket] = useState(localStorage.getItem('basket', JSON.stringify([{'id': 1, 'name': 'empty', 'price': 1, 'quantity': 1, 'size': 'm'}])));
+    const [basket, setBasket] = useState(localStorage.getItem('basket', JSON.stringify([])));
     
     // handle product modal basket
-    const [quantity, setQuantity] = useState(JSON.parse(localStorage.getItem('basket')).length)
+    const [quantity, setQuantity] = useState(JSON.parse(1))
     
     // force rerender when when product modal infor changes
     useEffect(() => {
@@ -172,6 +172,7 @@ function Products(props) {
         setQuantity(1)
         props.onQuantity(addBasket.length)
     }
+    
     
     const basketView = (JSON.parse(basket) || []).map((element, index)=>
                 <Row className="m-0 pb-2" key={index}>
