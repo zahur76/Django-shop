@@ -1,3 +1,3 @@
-.footer {
-    background-color: pink;
+.footer-links a i:hover {
+    color: rgb(136, 136, 136) !important;
 }

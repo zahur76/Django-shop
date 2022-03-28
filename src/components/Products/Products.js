@@ -29,11 +29,12 @@ function Products(props) {
 
     //Basket cookie
     const [basket, setBasket] = useState(localStorage.getItem('basket', JSON.stringify([])));
+    console.log(JSON.parse(basket))
     
     // handle product modal basket
     const [quantity, setQuantity] = useState(1)
     
-    // force rerender when when product modal infor changes
+    // force rerender when when product modal info changes
     useEffect(() => {
     }, [productModal, quantity, basket]);
 
@@ -200,14 +201,25 @@ function Products(props) {
     }
     
     const handleAddToBasket = (event) => {
-        let addBasket = JSON.parse(localStorage.getItem('basket'))
-        addBasket.push({'id': productModal.id, 'name': productModal.name, 'price':productModal.price, 'quantity': quantity, 'size': productModal.sizes_available[parseInt(sizeIndex)]})
-        localStorage.setItem('basket', JSON.stringify(addBasket))
-        setBasket(localStorage.getItem('basket'))
-        setQuantity(1)
-        props.onQuantity(addBasket.length)
-        setShow(false)
-        setIndex(0)    
+        if(JSON.parse(localStorage.getItem('basket'))){
+            let addBasket = JSON.parse(localStorage.getItem('basket'))
+            addBasket.push({'id': productModal.id, 'name': productModal.name, 'price':productModal.price, 'quantity': quantity, 'size': productModal.sizes_available[parseInt(sizeIndex)]})
+            localStorage.setItem('basket', JSON.stringify(addBasket))
+            setBasket(localStorage.getItem('basket'))
+            setQuantity(1)
+            props.onQuantity(addBasket.length)
+            setShow(false)
+            setIndex(0)
+        }else{
+            let addBasket = []
+            addBasket.push({'id': productModal.id, 'name': productModal.name, 'price':productModal.price, 'quantity': quantity, 'size': productModal.sizes_available[parseInt(sizeIndex)]})
+            localStorage.setItem('basket', JSON.stringify(addBasket))
+            setBasket(localStorage.getItem('basket'))
+            setQuantity(1)
+            props.onQuantity(addBasket.length)
+            setShow(false)
+            setIndex(0)
+        } 
     }
        
     return (

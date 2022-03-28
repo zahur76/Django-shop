@@ -149,7 +149,7 @@ function Checkout(props) {
             fetch("/api/process_order", {method: 'POST', headers: {'X-CSRFToken': csrftoken},
                 "Content-Type": "multipart/form-data", body: formData}).then((res) => {
                 res.status===200 ? flashMessages('Order Received') : flashMessages('Error!')
-                localStorage.setItem("basket", JSON.stringify([]))                
+                localStorage.removeItem("basket")                
                 setTimeout(() => {
                     setCheckout(true)
                     flashMessages(null)

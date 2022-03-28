@@ -44,7 +44,8 @@ function Header(props) {
 
     useEffect(() => {
         if(!localStorage.getItem('basket')){
-            setBasket([])
+            console.log('zazaz')
+            setBasket(JSON.stringify([]))
         }else{
             setBasket(localStorage.getItem('basket'), [])
             console.log('render')
@@ -55,7 +56,7 @@ function Header(props) {
         }, 1000);    
     }, [props.onQuantity]);    
 
-
+    console.log(basket)
     const handleUsernameChange = (event) => {
         setUsername(event.target.value)
     }
@@ -99,7 +100,7 @@ function Header(props) {
             {logout}            
             {flash ? <div className="flash-messages">{flash}</div> : <div></div>}    
             <Row className='header m-0 bg-dark'>
-                <Col className='logo text-start p-2 text-light h4' xs={8} md={3}>Shop4U</Col>
+                <Col className='logo text-start p-2 text-light h4' xs={8} md={3}><a href="/">Shop4U</a></Col>
                 <Col className='links text-end p-2 d-none d-md-block' md={9}>
                     <a className="p-2" href="/">Home</a>
                     {login==='true' ? <a href="#"></a> : <a className="p-2" href="#">Contact Us</a>}
