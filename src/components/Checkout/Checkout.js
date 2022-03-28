@@ -57,10 +57,6 @@ function Checkout(props) {
     const handleTotal = () => {
         let total = 0
         let items = JSON.parse(basket);
-        // for(i=0 ; i<=items.length; i++){
-        //     console.log(items[i]['price'])
-        //     // total = total + items[i].price * items[i].quantity
-        // }
         items.forEach(element => {
             total = total + element.price * element.quantity
         })
@@ -112,7 +108,6 @@ function Checkout(props) {
         formData.append('address_two', address_two)
         formData.append('phone_number', phone_number)
         formData.append('order', localStorage.getItem('basket'))
-        console.log(formData)
 
         if(!firstname){
             flashMessages('First name cannot be empty')

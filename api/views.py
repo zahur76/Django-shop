@@ -1,6 +1,7 @@
 from cgi import print_form
 from math import prod
 from operator import sub
+from django.http import QueryDict
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -8,7 +9,8 @@ from django.shortcuts import HttpResponse, get_object_or_404
 import json
 from django.contrib.auth import authenticate, login, logout
 from .models import Product, Category, subCategory, Order
-from django.forms.models import model_to_dict
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 # def all_products(request):
@@ -167,7 +169,6 @@ def process_order(request):
     if request.method == "POST":
 
         data = request.POST
-        print(data)
         order = Order.objects.create(
             first_name=data['first_name'],
             last_name=data['last_name'],
@@ -178,4 +179,20 @@ def process_order(request):
             json_order = data['order']
         )
         order.save()
+    return HttpResponse(status=200)
+
+
+@require_POST
+def query(request):
+    if request.method == "POST":
+        data = request.POST
+        message = f'{data["query"]}\n{data["name"]}\n{data["email"]}'
+        send_mail(
+            'Query',
+            message,        
+            settings.DEFAULT_FROM_EMAIL,
+            ['zahurmeerun@hotmail.com'],
+            fail_silently=False,
+        )
+
     return HttpResponse(status=200)
