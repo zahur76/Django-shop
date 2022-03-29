@@ -67,13 +67,20 @@ function Products(props) {
 
     const handleSearchTerm = (event) => {
         setSearchTerm(event.target.value)
+        console.log(subCategorySelect)
         let term = event.target.value
         let allItems = masterProducts
         let newList = []
         allItems.map((element)=>{
-            if(((element.name).toLowerCase()).includes(term.toLowerCase())){
-                newList.push(element)                    
-            }
+            if(subCategorySelect==='all'){
+                if(((element.name).toLowerCase()).includes(term.toLowerCase())){
+                    newList.push(element)                    
+                }
+            }else{
+                if(((element.name).toLowerCase()).includes(term.toLowerCase()) && element.subcategory===subCategorySelect){
+                    newList.push(element)                    
+                }
+            }            
             setProducts(newList)            
             return newList
         })         
