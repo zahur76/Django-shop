@@ -253,15 +253,16 @@ function Products(props) {
                 </Row>
             </div>
             <Modal className="product-modal" show={show} onHide={handleClose}>
+                <Modal.Header className="bg-dark p-0 rounded-0 text-light p-1">Shop4U</Modal.Header>
                 <Modal.Body className="pb-1">
                     <Row className="mb-2">
                         <Col xs="6"><div className="image-container"><img src={process.env.PUBLIC_URL + media +productModal.image} className={'image' + productModal.id} alt={productModal.name} /></div>  </Col>
                         <Col xs="6">
                             <div className="modal-details-box">
                                 <div className="element-id">{productModal.id}</div> 
-                                <div className="text-start text-secondary ps-1 pt-2 text-type border-bottom">{productModal.name}</div> 
+                                <div className="text-start text-dark ps-1 pt-2 text-type border-bottom border-secondary">{productModal.name}</div> 
                                 <div className="text-start text-dark ps-1 pt-2">$ {productModal.price}</div>                                
-                                <div className="pb-2 border-bottom">{handleRating(productModal.rating)}</div>                             
+                                <div className="pb-2 border-bottom border-secondary">{handleRating(productModal.rating)}</div>                             
                             </div>
                             <div className="text-start text-dark ps-1 pt-1 text-type">Quantity</div>   
                             <InputGroup className="mb-2 w-50 mt-2" size="sm">
@@ -273,12 +274,12 @@ function Products(props) {
                             </Row>    
                         </Col>
                     </Row>
-                    <Button onClick={handleAddToBasket} variant="outline-dark rounded-0 w-100 mb-2">ADD TO BASKET</Button>                         
+                    <Button onClick={handleAddToBasket} className="bg-dark text-light rounded-0 w-100 mb-2 basket-submit">ADD TO BASKET</Button>                         
                 </Modal.Body>
             </Modal>
             <Offcanvas className="p-2 basket-view" show={basketModal} onHide={handleCloseBasket} placement='end'>
                 <Offcanvas.Header closeButton>
-                <Offcanvas.Title className="border-bottom text-center ps-3 pe-3">My Basket</Offcanvas.Title>
+                <Offcanvas.Title className="border-bottom text-center ps-3 pe-3">My Basket <i class="fas fa-shopping-cart"></i></Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>                    
                     {basketView}                                      

@@ -100,7 +100,7 @@ function Header(props) {
             <Row className='header m-0 bg-dark'>
                 <Col className='logo text-start p-2 text-light h4' xs={8} md={3}><a href="/">Shop4U</a></Col>
                 <Col className='links text-end p-2 d-none d-md-block' md={9}>
-                    <a className="p-2" href="/">Home</a>
+                    <a className="p-2" href="/"><i class="fas fa-home"></i></a>
                     {login==='true' || location.pathname==='/checkout' ? <a href="#"></a> : JSON.parse(basket).length!==0 ? <a onClick={handleBasketActive} className="p-2" href="#" value={props.onQuantity}>{basketProp}</a> : <a className="p-2" href="#"><i class="fa-solid fa-basket-shopping"></i></a>}
                     {login==='true' ? <a className="p-2" href="/admin"><i className="text-success fas fa-user"></i></a> : <a onClick={handleShow} className="p-2" href="#"><i class="fas fa-user"></i></a>}
                     {login==='true' ? <a onClick={handleLogout} className="p-2" href="#"><i class="fas fa-sign-out"></i></a> : <div></div>}         

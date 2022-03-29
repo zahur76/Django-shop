@@ -34,7 +34,7 @@ a:hover {
 }
 
 .modal-content {
-    background-image: linear-gradient(to right, rgb(123, 66, 255) , rgb(166, 166, 255));
+    /* background-image: linear-gradient(to right, rgb(192, 192, 192) , rgb(240, 240, 240)); */
     border-radius: 0;
 }
 

@@ -100,6 +100,12 @@ input::-webkit-inner-spin-button {
     top: 20%;
 }
 
+.basket-submit:hover {
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+}
+
 input.quantity {
     background-color: rgb(255, 255, 255);
     border: 1px solid black;

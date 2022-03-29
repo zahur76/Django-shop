@@ -80,7 +80,7 @@ function Footer(props) {
                 </Col>
                 <Col xs={2}></Col>
             </Row>
-            <Modal show={show} onHide={handleClose}>
+            <Modal className="border-dark border-1" show={show} onHide={handleClose}>
                 <Modal.Header className="m-0 p-2" closeButton>
                     <Modal.Title><div className="text-dark">Get In Touch</div></Modal.Title>
                 </Modal.Header>
@@ -97,7 +97,7 @@ function Footer(props) {
                         <InputGroup className="mb-3 w-100">
                             <textarea className="w-100" id={query} onChange={e => setQuery(e.target.value)} placeholder="Query" required/>
                         </InputGroup>
-                        <Button variant="outline-dark rounded-0 w-100 mb-2" type="submit" >Submit</Button>  
+                        <Button className="bg-dark text-light rounded-0 w-100 mb-2 basket-submit" type="submit" >Submit</Button>  
                     </form>
                 </Modal.Body>
             </Modal>           
