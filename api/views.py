@@ -106,7 +106,10 @@ def all_products(request):
         "sizes_available",
         "image",
     )
-    print(list(all_data))
+
+    for data in all_data:
+        data['category']= get_object_or_404(Category, id=data['category']).name
+        data['subcategory']= get_object_or_404(subCategory, id=data['subcategory']).name
     return HttpResponse(json.dumps(list(all_data)), content_type="application/json")
 
 

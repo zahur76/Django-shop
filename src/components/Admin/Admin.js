@@ -186,7 +186,7 @@ function Admin(props) {
             </Row>
             <Modal className="product-form" show={show} onHide={handleClose}>
                 <Modal.Header className="m-0 p-2" closeButton>
-                    <Modal.Title><div className="text-light text">Add Product</div></Modal.Title>
+                    <Modal.Title><div className="text-dark text">Add Product</div></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form  className="p-3" onSubmit={handleProductSubmit}>
@@ -226,7 +226,7 @@ function Admin(props) {
                             aria-describedby="basic-addon1" required/>
                         </InputGroup>
                         <Form.Control name="image" type="file" multiple onChange={handleImageChange} required/>
-                        <input className="col-12 btn submit-button text-light mt-3 border-light" type="submit" value="Submit" />                       
+                        <input className="col-12 btn bg-dark basket-submit submit-button text-light mt-3 border-light" type="submit" value="Submit" />                       
                     </form>
                 </Modal.Body>
             </Modal>

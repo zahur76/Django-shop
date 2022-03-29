@@ -97,7 +97,7 @@ input::-webkit-inner-spin-button {
 
 /* product-modal */
 .product-modal {
-    top: 20%;
+    top: 20%;    
 }
 
 .basket-submit:hover {
@@ -122,13 +122,20 @@ input.quantity {
 }
 
 .basket-view{
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(255, 246, 246);
+    background-image: url('../media/61LLaoqUwFL._UY550_\ \(1\).png');
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 @media screen and (max-width: 576px){    
     .subcategory-link, .breadcrumbs{
         font-size: 14px;
 
+    }
+
+    .product-name {
+        font-size: 14px;
     }
 }
 

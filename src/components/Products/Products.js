@@ -278,6 +278,7 @@ function Products(props) {
                 </Modal.Body>
             </Modal>
             <Offcanvas className="p-2 basket-view" show={basketModal} onHide={handleCloseBasket} placement='end'>
+                <div className="cart-image"></div>
                 <Offcanvas.Header closeButton>
                 <Offcanvas.Title className="border-bottom text-center ps-3 pe-3">My Basket <i class="fas fa-shopping-cart"></i></Offcanvas.Title>
                 </Offcanvas.Header>

@@ -30,11 +30,11 @@ a:hover {
 }
 
 .modal {
-    top: 25%;    
+    top: 25%; 
 }
 
 .modal-content {
-    /* background-image: linear-gradient(to right, rgb(192, 192, 192) , rgb(240, 240, 240)); */
+    background-image: linear-gradient(to right, rgb(231, 231, 231) , rgb(247, 245, 245));
     border-radius: 0;
 }
 
